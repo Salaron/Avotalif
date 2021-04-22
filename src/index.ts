@@ -3,7 +3,7 @@ import Fia from "./fia"
 import { INotifier } from "./typings/notifier"
 import Utils from "./utils"
 
-export const logger = new Logger("Avotalif", LEVEL.VERBOSE);
+export const logger = new Logger("Avotalif", LEVEL.DEBUG);
 
 /*
 Planned features:
@@ -28,8 +28,9 @@ Planned features:
 */
 
 (async() => {
-  const Notifier = await Fia.getVariable<INotifier>("Notifier")
-  await Fia.getVariable<unknown>("ajax")
+  await Fia.getVariable<INotifier>("Notifier")
+  await Fia.getVariable("ajax")
+
   Utils.Hook(ajax, "post", (next, ...args) => {
     logger.Verbose(`${args[0]} : ${JSON.stringify(args[1], null, 2)}`, "Ajax POST")
     next(...args)

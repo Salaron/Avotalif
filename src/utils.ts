@@ -6,12 +6,12 @@ type IProto = {
 }
 
 export default class Utils {
-  public static async postRequest(url: string, body: any) {
+  public static async postRequest(url: string, data: any) {
     return new Promise((resolve, reject) => {
       GM_xmlhttpRequest({
         method: "POST",
         url,
-        data: body,
+        data,
         onload: resolve,
         onerror: reject
       })
