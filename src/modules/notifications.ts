@@ -1,7 +1,7 @@
 import { logger } from ".."
 import Utils from "../utils"
 
-let typingNotif = true;
+const typingNotif = true;
 
 (async() => {
   Utils.onLPEvent("event_typing", (response: { peerId: any; }) => {
@@ -11,7 +11,7 @@ let typingNotif = true;
 
       if (isConversantion) {
         // get conversantion name
-        // 
+        //
       }
       Notifier.showEvent({
         title: "Avotalif",

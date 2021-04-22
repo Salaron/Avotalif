@@ -36,13 +36,13 @@ export default class Utils {
         this.callOnDone = function(callback: Function) {
           this.on_finish_hook_callbacks.push(callback)
         } */
-        let ho = [...proto[`${name}_hook`].hooks] // create a copy of hooks
-        let next = (...args: any[]) => {
-          let res = ho.shift()
+        const ho = [...proto[`${name}_hook`].hooks] // create a copy of hooks
+        const next = (..._args: any[]) => {
+          const res = ho.shift()
           if (!res) {
-            return proto[`${name}_hook`].original.call(this, ...args)
+            return proto[`${name}_hook`].original.call(this, ..._args)
           } else {
-            return res.call(this, next, ...args)
+            return res.call(this, next, ..._args)
           }
         }
         const result = next(...args)
@@ -62,7 +62,7 @@ export default class Utils {
   }
 
   // not safe for functions
-  public static copyObject<T>(obj: T): T {
+  public static clone<T>(obj: T): T {
     return JSON.parse(JSON.stringify(obj))
   }
 }

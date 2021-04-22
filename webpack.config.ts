@@ -1,7 +1,7 @@
-import { Configuration } from "webpack";
-import * as path from "path";
+import { Configuration } from "webpack"
+import * as path from "path"
 
-const config: Configuration = { 
+const config: Configuration = {
   entry: "./src/index.ts",
   output: {
     filename: "bundle.js",
@@ -18,6 +18,6 @@ const config: Configuration = {
   resolve: {
     extensions: [".ts"]
   }
-};
+}
 
-export default config;
+export default config

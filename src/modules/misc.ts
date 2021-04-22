@@ -1,12 +1,12 @@
 import { logger } from ".."
 import Fia from "../fia"
 
-let vkAway = true
-let disableRightBar = true
+const vkAway = true
+const disableRightBar = true
 
 
 export async function bar(visible: boolean) {
-  let element = await Fia.getElementsByClass("left_menu_nav_wrap")
+  const element = await Fia.getElementsByClass("left_menu_nav_wrap")
   let visibility = "hidden"
   if (visible) {
     visibility = ""

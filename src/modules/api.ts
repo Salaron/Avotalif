@@ -8,6 +8,6 @@ export async function checkToken(token: string) {
 }
 
 export async function getToken(appID: number) {
-
+  // get a new token for specified application
 }
 

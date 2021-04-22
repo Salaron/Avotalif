@@ -1,7 +1,7 @@
 import { LEVEL, Logger } from "./logger"
 import Fia from "./fia"
-import { INotifier } from "./typings/notifier";
-import Utils from "./utils";
+import { INotifier } from "./typings/notifier"
+import Utils from "./utils"
 
 export const logger = new Logger("Avotalif", LEVEL.VERBOSE);
 
@@ -38,7 +38,7 @@ Planned features:
     logger.Verbose(JSON.stringify(response, null, 2), "Long Pool")
   })
   await import("./modules/index")
-  
+
   Notifier.showEvent({
     title: "Avotalif",
     text: "Здарова, кожанный ублюдок"

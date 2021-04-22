@@ -5,7 +5,7 @@ import Utils from "../utils"
 // TODO: store settings in localStorage
 let DNR = true
 let DNT = false
-let specialStates: ISpecialSettings = {}
+const specialStates: ISpecialSettings = {}
 
 interface ISpecialSettings {
   [peerID: number]: {
@@ -15,25 +15,25 @@ interface ISpecialSettings {
 }
 
 export function isDNREnabled(peerID: number) {
-  if (Object.keys(specialStates).map(parseInt).includes(peerID)) 
-    return specialStates[peerID].DNR  
+  if (Object.keys(specialStates).map(parseInt).includes(peerID))
+    return specialStates[peerID].DNR
   return DNR
 }
 export function isDNTEnabled(peerID: number) {
-  if (Object.keys(specialStates).map(parseInt).includes(peerID)) 
+  if (Object.keys(specialStates).map(parseInt).includes(peerID))
     return specialStates[peerID].DNT
   return DNT
 }
 
 // temporary solution
-//@ts-expect-error
-unsafeWindow.changeDNRState = function(state: boolean) {
+// @ts-expect-error
+unsafeWindow.changeDNRState = (state: boolean) => {
   DNR = state
 }
-//@ts-expect-error
-unsafeWindow.changeDNTState = function(state: boolean) {
+// @ts-expect-error
+unsafeWindow.changeDNTState = (state: boolean) => {
   DNT = state
-};
+}
 
 /*
 // css for background image in dialog
@@ -62,20 +62,20 @@ im-page--chat-body:before {
   ])
 
   Utils.Hook(ajax, "post", (next, ...args) => {
-    let url = args[0]
-    let body = args[1]
+    const url = args[0]
+    const body = args[1]
     if (url === "al_im.php" && body.act === "a_mark_read" && isDNREnabled(body.peer)) {
       logger.Debug(`Don't read messages`)
       // is it safe to kill idle_manager?
       curNotifier.idle_manager.is_idle = true
       args[2].onFail()
-      return;
+      return
     }
     if (url === "al_im.php" && body.act === "a_activity" && isDNTEnabled(body.peer)) {
       logger.Debug(`Don't send type status`)
-      return;
+      return
     }
-  
+
     return next(...args)
   })
 
@@ -92,12 +92,12 @@ im-page--chat-body:before {
     if(args[0].length > 0) next(...args)
   })
 
-  $(document).on("contextmenu", ".nim-dialog", function(event) {
-    console.log("hi")
+  $(document).on("contextmenu", ".nim-dialog", event => {
+    logger.Debug("Show dialog context menu")
     event.preventDefault()
   })
-  $(document).on("contextmenu", ".im-mess", function(event) {
-    console.log("bye")
+  $(document).on("contextmenu", ".im-mess", event => {
+    logger.Debug("Show message context menu")
     event.preventDefault()
   })
 
