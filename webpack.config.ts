@@ -11,10 +11,10 @@ export default function (env: any, options: any): Configuration {
     updateURL = "https://raw.githubusercontent.com/Salaron/Avotalif/main/dist/avotalif.meta.js"
     downloadURL = "https://raw.githubusercontent.com/Salaron/Avotalif/main/dist/avotalif.user.js"
   }
-  if (process.env.GITHUB_SHA) {
+  if (process.env.GITHUB_SHA && process.env.GITHUB_ACTION) {
     // nightly gist
     pkg.name = "avotalif-nightly"
-    pkg.version = process.env.GITHUB_SHA.slice(0, 7)
+    pkg.version = process.env.GITHUB_ACTION
     updateURL = "https://gist.githubusercontent.com/Salaron/26433a26b29cef790d2302703bab980d/raw/avotalif.meta.js"
     downloadURL = "https://gist.githubusercontent.com/Salaron/26433a26b29cef790d2302703bab980d/raw/avotalif.user.js"
   }
