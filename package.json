@@ -1,7 +1,7 @@
 {
   "name": "avotalif",
   "version": "1.0.0",
-  "description": "Another VK script",
+  "description": "Yet another script for VK.",
   "author": "Salaron",
   "scripts": {
     "build": "webpack --mode production",

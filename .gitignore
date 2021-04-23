@@ -1,5 +1,9 @@
-# Dependency
+# Dependencies
 node_modules/
 
 # Build
 dist/**/*
+
+# Leave user script
+!dist/avotalif.user.js
+!dist/avotalif.meta.js
