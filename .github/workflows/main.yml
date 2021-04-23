@@ -14,14 +14,10 @@ jobs:
       uses: actions/checkout@master
       
     - name: Install Dependencies
-      uses: borales/actions-yarn@v2.0.0
-      with:
-        cmd: install
+      run: npm install
     
     - name: Build for production
-      uses: borales/actions-yarn@v2.0.0
-      with: 
-        cmd: run build
+      run: npm run build
       
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.2.3
