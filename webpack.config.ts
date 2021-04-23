@@ -14,7 +14,7 @@ export default function (env: any, options: any): Configuration {
   if (process.env.GITHUB_SHA && process.env.GITHUB_ACTION) {
     // nightly gist
     pkg.name = "avotalif-nightly"
-    pkg.version = process.env.GITHUB_ACTION
+    pkg.version = process.env.GITHUB_ACTION.slice(3)
     updateURL = "https://gist.githubusercontent.com/Salaron/26433a26b29cef790d2302703bab980d/raw/avotalif.meta.js"
     downloadURL = "https://gist.githubusercontent.com/Salaron/26433a26b29cef790d2302703bab980d/raw/avotalif.user.js"
   }
