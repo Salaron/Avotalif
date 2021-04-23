@@ -4,10 +4,6 @@ on: push
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      SHA: ${GITHUB_SHA::8}
-      GITHUB_ACTION: 1
-      
     steps:
     - name: Setup Node.js environment
       uses: actions/setup-node@v2.1.5
