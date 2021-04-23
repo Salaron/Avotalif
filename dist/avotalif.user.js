@@ -4,6 +4,8 @@
 // @description  Yet another script for VK.
 // @author       Salaron
 // @version      1.0.0
+// @updateURL    https://raw.githubusercontent.com/Salaron/Avotalif/main/dist/avotalif.meta.js
+// @downloadURL  https://raw.githubusercontent.com/Salaron/Avotalif/main/dist/avotalif.user.js
 // @match        *://*.vk.com/*
 // @require      https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js
 // @grant        GM_addStyle
@@ -13,105 +15,1032 @@
 // @noframes
 // ==/UserScript==
 
-/*
- * ATTENTION: The "eval" devtool has been used (maybe by default in mode: "development").
- * This devtool is neither made for production nor for readable output files.
- * It uses "eval()" calls to create a separate source file in the browser devtools.
- * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
- * or disable the default devtool with "devtool: false".
- * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
- */
 /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/fia.ts":
-/*!********************!*\
-  !*** ./src/fia.ts ***!
-  \********************/
+/***/ 771:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
-eval("\r\nvar __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {\r\n    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }\r\n    return new (P || (P = Promise))(function (resolve, reject) {\r\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\r\n        function rejected(value) { try { step(generator[\"throw\"](value)); } catch (e) { reject(e); } }\r\n        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }\r\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\r\n    });\r\n};\r\nvar __generator = (this && this.__generator) || function (thisArg, body) {\r\n    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;\r\n    return g = { next: verb(0), \"throw\": verb(1), \"return\": verb(2) }, typeof Symbol === \"function\" && (g[Symbol.iterator] = function() { return this; }), g;\r\n    function verb(n) { return function (v) { return step([n, v]); }; }\r\n    function step(op) {\r\n        if (f) throw new TypeError(\"Generator is already executing.\");\r\n        while (_) try {\r\n            if (f = 1, y && (t = op[0] & 2 ? y[\"return\"] : op[0] ? y[\"throw\"] || ((t = y[\"return\"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;\r\n            if (y = 0, t) op = [op[0] & 2, t.value];\r\n            switch (op[0]) {\r\n                case 0: case 1: t = op; break;\r\n                case 4: _.label++; return { value: op[1], done: false };\r\n                case 5: _.label++; y = op[1]; op = [0]; continue;\r\n                case 7: op = _.ops.pop(); _.trys.pop(); continue;\r\n                default:\r\n                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }\r\n                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }\r\n                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }\r\n                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }\r\n                    if (t[2]) _.ops.pop();\r\n                    _.trys.pop(); continue;\r\n            }\r\n            op = body.call(thisArg, _);\r\n        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }\r\n        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };\r\n    }\r\n};\r\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\r\nvar _1 = __webpack_require__(/*! . */ \"./src/index.ts\");\r\nvar Fia = /** @class */ (function () {\r\n    function Fia() {\r\n    }\r\n    Fia.getVariable = function (name) {\r\n        return __awaiter(this, void 0, void 0, function () {\r\n            var _this = this;\r\n            return __generator(this, function (_a) {\r\n                // what will be if variable doesn't exist?\r\n                return [2 /*return*/, new Promise(function (res) {\r\n                        // @ts-expect-error\r\n                        if (typeof unsafeWindow[name] !== \"undefined\") {\r\n                            _1.logger.Debug(\"Got variable: \" + name);\r\n                            // @ts-expect-error\r\n                            return res(unsafeWindow[name]);\r\n                        }\r\n                        setTimeout(function () { return __awaiter(_this, void 0, void 0, function () { var _a; return __generator(this, function (_b) {\r\n                            switch (_b.label) {\r\n                                case 0:\r\n                                    _a = res;\r\n                                    return [4 /*yield*/, Fia.getVariable(name)];\r\n                                case 1:\r\n                                    _a.apply(void 0, [_b.sent()]);\r\n                                    return [2 /*return*/];\r\n                            }\r\n                        }); }); }, 10);\r\n                    })];\r\n            });\r\n        });\r\n    };\r\n    Fia.getElementById = function (name) {\r\n        return __awaiter(this, void 0, void 0, function () {\r\n            var _this = this;\r\n            return __generator(this, function (_a) {\r\n                return [2 /*return*/, new Promise(function (res) {\r\n                        var result = document.getElementById(name);\r\n                        if (result != null)\r\n                            return res(result);\r\n                        setTimeout(function () { return __awaiter(_this, void 0, void 0, function () { var _a; return __generator(this, function (_b) {\r\n                            switch (_b.label) {\r\n                                case 0:\r\n                                    _a = res;\r\n                                    return [4 /*yield*/, Fia.getElementById(name)];\r\n                                case 1:\r\n                                    _a.apply(void 0, [_b.sent()]);\r\n                                    return [2 /*return*/];\r\n                            }\r\n                        }); }); }, 10);\r\n                    })];\r\n            });\r\n        });\r\n    };\r\n    Fia.getElementsByClass = function (className) {\r\n        return __awaiter(this, void 0, void 0, function () {\r\n            var _this = this;\r\n            return __generator(this, function (_a) {\r\n                return [2 /*return*/, new Promise(function (res) {\r\n                        var result = document.getElementsByClassName(className);\r\n                        if (result.length > 0)\r\n                            return res(result);\r\n                        setTimeout(function () { return __awaiter(_this, void 0, void 0, function () { var _a; return __generator(this, function (_b) {\r\n                            switch (_b.label) {\r\n                                case 0:\r\n                                    _a = res;\r\n                                    return [4 /*yield*/, Fia.getElementsByClass(className)];\r\n                                case 1:\r\n                                    _a.apply(void 0, [_b.sent()]);\r\n                                    return [2 /*return*/];\r\n                            }\r\n                        }); }); }, 10);\r\n                    })];\r\n            });\r\n        });\r\n    };\r\n    Fia.querySelector = function (selectors) {\r\n        return __awaiter(this, void 0, void 0, function () {\r\n            var _this = this;\r\n            return __generator(this, function (_a) {\r\n                return [2 /*return*/, new Promise(function (res) {\r\n                        var result = document.querySelector(selectors);\r\n                        if (result)\r\n                            return res(result);\r\n                        setTimeout(function () { return __awaiter(_this, void 0, void 0, function () { var _a; return __generator(this, function (_b) {\r\n                            switch (_b.label) {\r\n                                case 0:\r\n                                    _a = res;\r\n                                    return [4 /*yield*/, Fia.querySelector(selectors)];\r\n                                case 1:\r\n                                    _a.apply(void 0, [_b.sent()]);\r\n                                    return [2 /*return*/];\r\n                            }\r\n                        }); }); }, 10);\r\n                    })];\r\n            });\r\n        });\r\n    };\r\n    return Fia;\r\n}());\r\nexports.default = Fia;\r\n\n\n//# sourceURL=webpack://avotalif/./src/fia.ts?");
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+var _1 = __webpack_require__(607);
+var Fia = /** @class */ (function () {
+    function Fia() {
+    }
+    Fia.getVariable = function (name) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                // what will be if variable doesn't exist?
+                return [2 /*return*/, new Promise(function (res) {
+                        // @ts-expect-error
+                        if (typeof unsafeWindow[name] !== "undefined") {
+                            _1.logger.Debug("Got variable: " + name);
+                            // @ts-expect-error
+                            return res(unsafeWindow[name]);
+                        }
+                        setTimeout(function () { return __awaiter(_this, void 0, void 0, function () { var _a; return __generator(this, function (_b) {
+                            switch (_b.label) {
+                                case 0:
+                                    _a = res;
+                                    return [4 /*yield*/, Fia.getVariable(name)];
+                                case 1:
+                                    _a.apply(void 0, [_b.sent()]);
+                                    return [2 /*return*/];
+                            }
+                        }); }); }, 10);
+                    })];
+            });
+        });
+    };
+    Fia.getElementById = function (name) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, new Promise(function (res) {
+                        var result = document.getElementById(name);
+                        if (result != null)
+                            return res(result);
+                        setTimeout(function () { return __awaiter(_this, void 0, void 0, function () { var _a; return __generator(this, function (_b) {
+                            switch (_b.label) {
+                                case 0:
+                                    _a = res;
+                                    return [4 /*yield*/, Fia.getElementById(name)];
+                                case 1:
+                                    _a.apply(void 0, [_b.sent()]);
+                                    return [2 /*return*/];
+                            }
+                        }); }); }, 10);
+                    })];
+            });
+        });
+    };
+    Fia.getElementsByClass = function (className) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, new Promise(function (res) {
+                        var result = document.getElementsByClassName(className);
+                        if (result.length > 0)
+                            return res(result);
+                        setTimeout(function () { return __awaiter(_this, void 0, void 0, function () { var _a; return __generator(this, function (_b) {
+                            switch (_b.label) {
+                                case 0:
+                                    _a = res;
+                                    return [4 /*yield*/, Fia.getElementsByClass(className)];
+                                case 1:
+                                    _a.apply(void 0, [_b.sent()]);
+                                    return [2 /*return*/];
+                            }
+                        }); }); }, 10);
+                    })];
+            });
+        });
+    };
+    Fia.querySelector = function (selectors) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, new Promise(function (res) {
+                        var result = document.querySelector(selectors);
+                        if (result)
+                            return res(result);
+                        setTimeout(function () { return __awaiter(_this, void 0, void 0, function () { var _a; return __generator(this, function (_b) {
+                            switch (_b.label) {
+                                case 0:
+                                    _a = res;
+                                    return [4 /*yield*/, Fia.querySelector(selectors)];
+                                case 1:
+                                    _a.apply(void 0, [_b.sent()]);
+                                    return [2 /*return*/];
+                            }
+                        }); }); }, 10);
+                    })];
+            });
+        });
+    };
+    return Fia;
+}());
+exports.default = Fia;
+
 
 /***/ }),
 
-/***/ "./src/index.ts":
-/*!**********************!*\
-  !*** ./src/index.ts ***!
-  \**********************/
+/***/ 607:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
-eval("\r\nvar __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {\r\n    if (k2 === undefined) k2 = k;\r\n    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });\r\n}) : (function(o, m, k, k2) {\r\n    if (k2 === undefined) k2 = k;\r\n    o[k2] = m[k];\r\n}));\r\nvar __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {\r\n    Object.defineProperty(o, \"default\", { enumerable: true, value: v });\r\n}) : function(o, v) {\r\n    o[\"default\"] = v;\r\n});\r\nvar __importStar = (this && this.__importStar) || function (mod) {\r\n    if (mod && mod.__esModule) return mod;\r\n    var result = {};\r\n    if (mod != null) for (var k in mod) if (k !== \"default\" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);\r\n    __setModuleDefault(result, mod);\r\n    return result;\r\n};\r\nvar __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {\r\n    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }\r\n    return new (P || (P = Promise))(function (resolve, reject) {\r\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\r\n        function rejected(value) { try { step(generator[\"throw\"](value)); } catch (e) { reject(e); } }\r\n        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }\r\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\r\n    });\r\n};\r\nvar __generator = (this && this.__generator) || function (thisArg, body) {\r\n    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;\r\n    return g = { next: verb(0), \"throw\": verb(1), \"return\": verb(2) }, typeof Symbol === \"function\" && (g[Symbol.iterator] = function() { return this; }), g;\r\n    function verb(n) { return function (v) { return step([n, v]); }; }\r\n    function step(op) {\r\n        if (f) throw new TypeError(\"Generator is already executing.\");\r\n        while (_) try {\r\n            if (f = 1, y && (t = op[0] & 2 ? y[\"return\"] : op[0] ? y[\"throw\"] || ((t = y[\"return\"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;\r\n            if (y = 0, t) op = [op[0] & 2, t.value];\r\n            switch (op[0]) {\r\n                case 0: case 1: t = op; break;\r\n                case 4: _.label++; return { value: op[1], done: false };\r\n                case 5: _.label++; y = op[1]; op = [0]; continue;\r\n                case 7: op = _.ops.pop(); _.trys.pop(); continue;\r\n                default:\r\n                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }\r\n                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }\r\n                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }\r\n                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }\r\n                    if (t[2]) _.ops.pop();\r\n                    _.trys.pop(); continue;\r\n            }\r\n            op = body.call(thisArg, _);\r\n        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }\r\n        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };\r\n    }\r\n};\r\nvar __importDefault = (this && this.__importDefault) || function (mod) {\r\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\r\n};\r\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\r\nexports.logger = void 0;\r\nvar logger_1 = __webpack_require__(/*! ./logger */ \"./src/logger.ts\");\r\nvar fia_1 = __importDefault(__webpack_require__(/*! ./fia */ \"./src/fia.ts\"));\r\nvar utils_1 = __importDefault(__webpack_require__(/*! ./utils */ \"./src/utils.ts\"));\r\nexports.logger = new logger_1.Logger(\"Avotalif\", 3 /* INFO */);\r\n/*\r\nPlanned features:\r\n0. Replace a_send calls with messages.send\r\n0.1. Don't parse links option\r\n0.2. Don't send notification option\r\n1. Enchanced DNR // done 20.04\r\n2. Ability to HIDE call buttons\r\n3. Return old buttons order in profiles\r\n4. Dark mode?\r\n5. Audio sync in tabs\r\n6. Show time with seconds\r\n7. DNR & DNT managers\r\n8. Dialog stats\r\n9. Ability to hide some dialogs from dialog list?\r\n10. Settings\r\n11. Hide small buttons under left menu // done 20.04\r\n12. Image background in dialog\r\n13. Custom context menu for dialogs and messages\r\n14. Dialog like in mobile apps\r\n15. Additional information in profile\r\n*/\r\n(function () { return __awaiter(void 0, void 0, void 0, function () {\r\n    return __generator(this, function (_a) {\r\n        switch (_a.label) {\r\n            case 0: return [4 /*yield*/, fia_1.default.getVariable(\"Notifier\")];\r\n            case 1:\r\n                _a.sent();\r\n                return [4 /*yield*/, fia_1.default.getVariable(\"ajax\")];\r\n            case 2:\r\n                _a.sent();\r\n                utils_1.default.Hook(ajax, \"post\", function (next) {\r\n                    var args = [];\r\n                    for (var _i = 1; _i < arguments.length; _i++) {\r\n                        args[_i - 1] = arguments[_i];\r\n                    }\r\n                    exports.logger.Verbose(args[0] + \" : \" + JSON.stringify(args[1], null, 2), \"Ajax POST\");\r\n                    next.apply(void 0, args);\r\n                });\r\n                utils_1.default.onLPEvent(\"\", function (response) {\r\n                    exports.logger.Verbose(JSON.stringify(response, null, 2), \"Long Pool\");\r\n                });\r\n                return [4 /*yield*/, Promise.resolve().then(function () { return __importStar(__webpack_require__(/*! ./modules/index */ \"./src/modules/index.ts\")); })];\r\n            case 3:\r\n                _a.sent();\r\n                return [2 /*return*/];\r\n        }\r\n    });\r\n}); })();\r\n\n\n//# sourceURL=webpack://avotalif/./src/index.ts?");
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.logger = void 0;
+var logger_1 = __webpack_require__(473);
+var fia_1 = __importDefault(__webpack_require__(771));
+var utils_1 = __importDefault(__webpack_require__(593));
+exports.logger = new logger_1.Logger("Avotalif", 3 /* INFO */);
+/*
+Planned features:
+0. Replace a_send calls with messages.send
+0.1. Don't parse links option
+0.2. Don't send notification option
+1. Enchanced DNR // done 20.04
+2. Ability to HIDE call buttons
+3. Return old buttons order in profiles
+4. Dark mode?
+5. Audio sync in tabs
+6. Show time with seconds
+7. DNR & DNT managers
+8. Dialog stats
+9. Ability to hide some dialogs from dialog list?
+10. Settings
+11. Hide small buttons under left menu // done 20.04
+12. Image background in dialog
+13. Custom context menu for dialogs and messages
+14. Dialog like in mobile apps
+15. Additional information in profile
+*/
+(function () { return __awaiter(void 0, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, fia_1.default.getVariable("Notifier")];
+            case 1:
+                _a.sent();
+                return [4 /*yield*/, fia_1.default.getVariable("ajax")];
+            case 2:
+                _a.sent();
+                utils_1.default.Hook(ajax, "post", function (next) {
+                    var args = [];
+                    for (var _i = 1; _i < arguments.length; _i++) {
+                        args[_i - 1] = arguments[_i];
+                    }
+                    exports.logger.Verbose(args[0] + " : " + JSON.stringify(args[1], null, 2), "Ajax POST");
+                    next.apply(void 0, args);
+                });
+                utils_1.default.onLPEvent("", function (response) {
+                    exports.logger.Verbose(JSON.stringify(response, null, 2), "Long Pool");
+                });
+                return [4 /*yield*/, Promise.resolve().then(function () { return __importStar(__webpack_require__(815)); })];
+            case 3:
+                _a.sent();
+                return [2 /*return*/];
+        }
+    });
+}); })();
+
 
 /***/ }),
 
-/***/ "./src/logger.ts":
-/*!***********************!*\
-  !*** ./src/logger.ts ***!
-  \***********************/
+/***/ 473:
 /***/ ((__unused_webpack_module, exports) => {
 
-eval("\r\nvar _a;\r\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\r\nexports.Logger = void 0;\r\n// colors[LEVEL].\r\nvar colors = (_a = {},\r\n    _a[0 /* NONE */] = {\r\n        bgColor: \"\",\r\n        fgColor: \"\"\r\n    },\r\n    _a[1 /* ERROR */] = {\r\n        bgColor: \"#ff00ff\",\r\n        fgColor: \"#000000\"\r\n    },\r\n    _a[2 /* WARN */] = {\r\n        bgColor: \"#FFFF00\",\r\n        fgColor: \"#000000\"\r\n    },\r\n    _a[3 /* INFO */] = {\r\n        bgColor: \"#FFFFFF\",\r\n        fgColor: \"#000000\"\r\n    },\r\n    _a[4 /* DEBUG */] = {\r\n        bgColor: \"#00ffff\",\r\n        fgColor: \"#000000\"\r\n    },\r\n    _a[5 /* VERBOSE */] = {\r\n        bgColor: \"\",\r\n        fgColor: \"\"\r\n    },\r\n    _a);\r\n// TODO: use console.warn console.error etc.\r\nvar Logger = /** @class */ (function () {\r\n    function Logger(label, level) {\r\n        this.label = label;\r\n        this.logLevel = typeof level === \"number\" ? level : 3 /* INFO */;\r\n    }\r\n    Logger.prototype.Error = function (message, label) {\r\n        this.print(label || this.label, message, 1 /* ERROR */);\r\n    };\r\n    Logger.prototype.Warn = function (message, label) {\r\n        this.print(label || this.label, message, 2 /* WARN */);\r\n    };\r\n    Logger.prototype.Info = function (message, label) {\r\n        this.print(label || this.label, message, 3 /* INFO */);\r\n    };\r\n    Logger.prototype.Debug = function (message, label) {\r\n        this.print(label || this.label, message, 4 /* DEBUG */);\r\n    };\r\n    Logger.prototype.Verbose = function (message, label) {\r\n        this.print(label || this.label, message, 5 /* VERBOSE */);\r\n    };\r\n    Logger.prototype.print = function (label, message, level) {\r\n        if (level <= this.logLevel) {\r\n            // tslint:disable-next-line:no-console\r\n            console.log(\"%c\" + label, \"background: \" + colors[level].bgColor + \"; color: \" + colors[level].fgColor + \"; padding: 3px;\", message);\r\n        }\r\n    };\r\n    return Logger;\r\n}());\r\nexports.Logger = Logger;\r\n\n\n//# sourceURL=webpack://avotalif/./src/logger.ts?");
+
+var _a;
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Logger = void 0;
+// colors[LEVEL].
+var colors = (_a = {},
+    _a[0 /* NONE */] = {
+        bgColor: "",
+        fgColor: ""
+    },
+    _a[1 /* ERROR */] = {
+        bgColor: "#ff00ff",
+        fgColor: "#000000"
+    },
+    _a[2 /* WARN */] = {
+        bgColor: "#FFFF00",
+        fgColor: "#000000"
+    },
+    _a[3 /* INFO */] = {
+        bgColor: "#FFFFFF",
+        fgColor: "#000000"
+    },
+    _a[4 /* DEBUG */] = {
+        bgColor: "#00ffff",
+        fgColor: "#000000"
+    },
+    _a[5 /* VERBOSE */] = {
+        bgColor: "",
+        fgColor: ""
+    },
+    _a);
+// TODO: use console.warn console.error etc.
+var Logger = /** @class */ (function () {
+    function Logger(label, level) {
+        this.label = label;
+        this.logLevel = typeof level === "number" ? level : 3 /* INFO */;
+    }
+    Logger.prototype.Error = function (message, label) {
+        this.print(label || this.label, message, 1 /* ERROR */);
+    };
+    Logger.prototype.Warn = function (message, label) {
+        this.print(label || this.label, message, 2 /* WARN */);
+    };
+    Logger.prototype.Info = function (message, label) {
+        this.print(label || this.label, message, 3 /* INFO */);
+    };
+    Logger.prototype.Debug = function (message, label) {
+        this.print(label || this.label, message, 4 /* DEBUG */);
+    };
+    Logger.prototype.Verbose = function (message, label) {
+        this.print(label || this.label, message, 5 /* VERBOSE */);
+    };
+    Logger.prototype.print = function (label, message, level) {
+        if (level <= this.logLevel) {
+            // tslint:disable-next-line:no-console
+            console.log("%c" + label, "background: " + colors[level].bgColor + "; color: " + colors[level].fgColor + "; padding: 3px;", message);
+        }
+    };
+    return Logger;
+}());
+exports.Logger = Logger;
+
 
 /***/ }),
 
-/***/ "./src/modules/api.ts":
-/*!****************************!*\
-  !*** ./src/modules/api.ts ***!
-  \****************************/
+/***/ 359:
 /***/ (function(__unused_webpack_module, exports) {
 
-eval("\r\nvar __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {\r\n    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }\r\n    return new (P || (P = Promise))(function (resolve, reject) {\r\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\r\n        function rejected(value) { try { step(generator[\"throw\"](value)); } catch (e) { reject(e); } }\r\n        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }\r\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\r\n    });\r\n};\r\nvar __generator = (this && this.__generator) || function (thisArg, body) {\r\n    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;\r\n    return g = { next: verb(0), \"throw\": verb(1), \"return\": verb(2) }, typeof Symbol === \"function\" && (g[Symbol.iterator] = function() { return this; }), g;\r\n    function verb(n) { return function (v) { return step([n, v]); }; }\r\n    function step(op) {\r\n        if (f) throw new TypeError(\"Generator is already executing.\");\r\n        while (_) try {\r\n            if (f = 1, y && (t = op[0] & 2 ? y[\"return\"] : op[0] ? y[\"throw\"] || ((t = y[\"return\"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;\r\n            if (y = 0, t) op = [op[0] & 2, t.value];\r\n            switch (op[0]) {\r\n                case 0: case 1: t = op; break;\r\n                case 4: _.label++; return { value: op[1], done: false };\r\n                case 5: _.label++; y = op[1]; op = [0]; continue;\r\n                case 7: op = _.ops.pop(); _.trys.pop(); continue;\r\n                default:\r\n                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }\r\n                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }\r\n                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }\r\n                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }\r\n                    if (t[2]) _.ops.pop();\r\n                    _.trys.pop(); continue;\r\n            }\r\n            op = body.call(thisArg, _);\r\n        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }\r\n        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };\r\n    }\r\n};\r\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\r\nexports.getToken = exports.checkToken = exports.sendRequest = void 0;\r\nfunction sendRequest(method, data) {\r\n    return __awaiter(this, void 0, void 0, function () {\r\n        return __generator(this, function (_a) {\r\n            return [2 /*return*/];\r\n        });\r\n    });\r\n}\r\nexports.sendRequest = sendRequest;\r\nfunction checkToken(token) {\r\n    return __awaiter(this, void 0, void 0, function () {\r\n        return __generator(this, function (_a) {\r\n            return [2 /*return*/];\r\n        });\r\n    });\r\n}\r\nexports.checkToken = checkToken;\r\nfunction getToken(appID) {\r\n    return __awaiter(this, void 0, void 0, function () {\r\n        var ID;\r\n        return __generator(this, function (_a) {\r\n            ID = unsafeWindow.vk.id;\r\n            return [2 /*return*/, \"\"];\r\n        });\r\n    });\r\n}\r\nexports.getToken = getToken;\r\n\n\n//# sourceURL=webpack://avotalif/./src/modules/api.ts?");
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.getToken = exports.checkToken = exports.sendRequest = void 0;
+function sendRequest(method, data) {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            return [2 /*return*/];
+        });
+    });
+}
+exports.sendRequest = sendRequest;
+function checkToken(token) {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            return [2 /*return*/];
+        });
+    });
+}
+exports.checkToken = checkToken;
+function getToken(appID) {
+    return __awaiter(this, void 0, void 0, function () {
+        var ID;
+        return __generator(this, function (_a) {
+            ID = unsafeWindow.vk.id;
+            return [2 /*return*/, ""];
+        });
+    });
+}
+exports.getToken = getToken;
+
 
 /***/ }),
 
-/***/ "./src/modules/im.ts":
-/*!***************************!*\
-  !*** ./src/modules/im.ts ***!
-  \***************************/
+/***/ 602:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
-eval("\r\nvar __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {\r\n    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }\r\n    return new (P || (P = Promise))(function (resolve, reject) {\r\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\r\n        function rejected(value) { try { step(generator[\"throw\"](value)); } catch (e) { reject(e); } }\r\n        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }\r\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\r\n    });\r\n};\r\nvar __generator = (this && this.__generator) || function (thisArg, body) {\r\n    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;\r\n    return g = { next: verb(0), \"throw\": verb(1), \"return\": verb(2) }, typeof Symbol === \"function\" && (g[Symbol.iterator] = function() { return this; }), g;\r\n    function verb(n) { return function (v) { return step([n, v]); }; }\r\n    function step(op) {\r\n        if (f) throw new TypeError(\"Generator is already executing.\");\r\n        while (_) try {\r\n            if (f = 1, y && (t = op[0] & 2 ? y[\"return\"] : op[0] ? y[\"throw\"] || ((t = y[\"return\"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;\r\n            if (y = 0, t) op = [op[0] & 2, t.value];\r\n            switch (op[0]) {\r\n                case 0: case 1: t = op; break;\r\n                case 4: _.label++; return { value: op[1], done: false };\r\n                case 5: _.label++; y = op[1]; op = [0]; continue;\r\n                case 7: op = _.ops.pop(); _.trys.pop(); continue;\r\n                default:\r\n                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }\r\n                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }\r\n                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }\r\n                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }\r\n                    if (t[2]) _.ops.pop();\r\n                    _.trys.pop(); continue;\r\n            }\r\n            op = body.call(thisArg, _);\r\n        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }\r\n        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };\r\n    }\r\n};\r\nvar __importDefault = (this && this.__importDefault) || function (mod) {\r\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\r\n};\r\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\r\nexports.isDNTEnabled = exports.isDNREnabled = void 0;\r\nvar __1 = __webpack_require__(/*! .. */ \"./src/index.ts\");\r\nvar fia_1 = __importDefault(__webpack_require__(/*! ../fia */ \"./src/fia.ts\"));\r\nvar utils_1 = __importDefault(__webpack_require__(/*! ../utils */ \"./src/utils.ts\"));\r\n// TODO: store settings in localStorage\r\nvar DNR = true;\r\nvar DNT = false;\r\nvar specialStates = {};\r\nfunction isDNREnabled(peerID) {\r\n    if (specialStates[peerID] && typeof specialStates[peerID].DNR === \"boolean\")\r\n        return specialStates[peerID].DNR;\r\n    return DNR;\r\n}\r\nexports.isDNREnabled = isDNREnabled;\r\nfunction isDNTEnabled(peerID) {\r\n    if (specialStates[peerID] && typeof specialStates[peerID].DNT === \"boolean\")\r\n        return specialStates[peerID].DNT;\r\n    return DNT;\r\n}\r\nexports.isDNTEnabled = isDNTEnabled;\r\nunsafeWindow.changeDNRForChat = function (peerID) {\r\n    if (!specialStates[peerID])\r\n        specialStates[peerID] = {};\r\n    if (typeof specialStates[peerID].DNR !== \"boolean\")\r\n        specialStates[peerID].DNR = !DNR;\r\n    else\r\n        specialStates[peerID].DNR = !specialStates[peerID].DNR;\r\n    var contextLabel = document.getElementById(\"context-dnr\");\r\n    if (specialStates[peerID].DNR === true) {\r\n        // нечиталка была включена\r\n        utils_1.default.showNotification(\"Нечиталка включена для данного чата\");\r\n        // update context menu action\r\n        if (contextLabel)\r\n            contextLabel.innerText = \"Выключить нечиталку\";\r\n    }\r\n    else {\r\n        // нечиталка была выключена\r\n        utils_1.default.showNotification(\"Нечиталка выключена для данного чата\");\r\n        curNotifier.idle_manager.is_idle = false;\r\n        if (contextLabel)\r\n            contextLabel.innerText = \"Включить нечиталку\";\r\n    }\r\n};\r\nunsafeWindow.changeDNTForChat = function (peerID) {\r\n    if (!specialStates[peerID])\r\n        specialStates[peerID] = {};\r\n    if (typeof specialStates[peerID].DNT !== \"boolean\")\r\n        specialStates[peerID].DNT = !DNT;\r\n    else\r\n        specialStates[peerID].DNT = !specialStates[peerID].DNT;\r\n    var contextLabel = document.getElementById(\"context-dnt\");\r\n    if (specialStates[peerID].DNT === true) {\r\n        utils_1.default.showNotification(\"Неписалка включена для данного чата\");\r\n        if (contextLabel)\r\n            contextLabel.innerText = \"Выключить неписалку\";\r\n    }\r\n    else {\r\n        utils_1.default.showNotification(\"Неписалка выключена для данного чата\");\r\n        if (contextLabel)\r\n            contextLabel.innerText = \"Включить неписалку\";\r\n    }\r\n};\r\nunsafeWindow.changeDNRState = function (state) {\r\n    DNR = state;\r\n    utils_1.default.showNotification(\"\\u041D\\u0435\\u0447\\u0438\\u0442\\u0430\\u043B\\u043A\\u0430 \" + (state === true ? \"включена\" : \"выключена\"));\r\n};\r\nunsafeWindow.changeDNTState = function (state) {\r\n    DNT = state;\r\n    utils_1.default.showNotification(\"\\u041D\\u0435\\u043F\\u0438\\u0441\\u0430\\u043B\\u043A\\u0430 \" + (state === true ? \"включена\" : \"выключена\"));\r\n};\r\n/*\r\n// css for background image in dialog\r\nim-page--chat-body:before {\r\n  content: ' ';\r\n  display: block;\r\n  position: absolute;\r\n  left: 0;\r\n  top: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  opacity: 0.7;\r\n  background-image: url(https://i.pinimg.com/originals/f7/ae/e8/f7aee8753832af613b63e51d5f07011a.jpg);\r\n  background-repeat: no-repeat;\r\n  background-position: 50% 0;\r\n  background-size: cover;\r\n}\r\n*/\r\n(function () { return __awaiter(void 0, void 0, void 0, function () {\r\n    function createLi(id, actionName, clickAction) {\r\n        return \"<li id=\\\"context-\" + id + \"\\\" onclick=\" + (clickAction === null ? \"\" : clickAction) + \">\" + actionName + \"</li>\";\r\n    }\r\n    var selectedByContext;\r\n    return __generator(this, function (_a) {\r\n        switch (_a.label) {\r\n            case 0: \r\n            // prepare all needed global variables\r\n            return [4 /*yield*/, Promise.all([\r\n                    fia_1.default.getVariable(\"ajax\"),\r\n                    fia_1.default.getVariable(\"Notifier\"),\r\n                    fia_1.default.getVariable(\"curNotifier\")\r\n                ])];\r\n            case 1:\r\n                // prepare all needed global variables\r\n                _a.sent();\r\n                utils_1.default.Hook(ajax, \"post\", function (next) {\r\n                    var args = [];\r\n                    for (var _i = 1; _i < arguments.length; _i++) {\r\n                        args[_i - 1] = arguments[_i];\r\n                    }\r\n                    var url = args[0];\r\n                    var body = args[1];\r\n                    if (url === \"al_im.php\" && body.act === \"a_mark_read\" && isDNREnabled(body.peer)) {\r\n                        __1.logger.Debug(\"Don't read messages\");\r\n                        // is it safe to kill idle_manager?\r\n                        curNotifier.idle_manager.is_idle = true;\r\n                        args[2].onFail();\r\n                        return;\r\n                    }\r\n                    if (url === \"al_im.php\" && body.act === \"a_activity\" && isDNTEnabled(body.peer)) {\r\n                        __1.logger.Debug(\"Don't send type status\");\r\n                        return;\r\n                    }\r\n                    return next.apply(void 0, args);\r\n                });\r\n                utils_1.default.Hook(Notifier.getLpInstance(), \"push\", function (next) {\r\n                    var args = [];\r\n                    for (var _i = 1; _i < arguments.length; _i++) {\r\n                        args[_i - 1] = arguments[_i];\r\n                    }\r\n                    args[0] = args[0].filter(function (val) {\r\n                        return val.type !== \"event_read_inbound\" || (val.type === \"event_read_inbound\" && !isDNREnabled(val.peer));\r\n                    });\r\n                    /*args[0] = args[0].map((val: any) => {\r\n                        if (val.type === \"event_read_inbound\") {\r\n                          val.unread = 1111\r\n                        }\r\n                        return val\r\n                      }) */\r\n                    if (args[0].length > 0)\r\n                        next.apply(void 0, args);\r\n                });\r\n                // style for context menu\r\n                GM_addStyle(\"\\n    .custom-menu {\\n      display: none;\\n      z-index: 1000;\\n      position: absolute;\\n      overflow: hidden;\\n      border: 1px solid #CCC;\\n      white-space: nowrap;\\n      font-family: sans-serif;\\n      background: #FFF;\\n      color: #333;\\n      border-radius: 5px;\\n      padding: 0;\\n    }\\n\\n    /* Each of the items in the list */\\n    .custom-menu li {\\n      padding: 8px 12px;\\n      cursor: pointer;\\n      list-style-type: none;\\n      transition: all .3s ease;\\n      user-select: none;\\n    }\\n\\n    .custom-menu li:hover {\\n      background-color: #DEF;\\n    }\\n  \");\r\n                window.addEventListener(\"load\", function () {\r\n                    document.body.insertAdjacentHTML(\"afterbegin\", \"<div><ul id=\\\"custom-context-menu\\\" class=\\\"custom-menu\\\"></ul></div>\");\r\n                });\r\n                // context menu for dialogs\r\n                $(document).on(\"contextmenu\", \".nim-dialog\", function (event) {\r\n                    __1.logger.Debug(\"Show context menu for dialog\");\r\n                    var menu = \"\";\r\n                    var peerID = parseInt(event.currentTarget.getAttribute(\"data-peer\"), 10);\r\n                    var isGroup = peerID < 0;\r\n                    var isConversation = peerID > 2000000000;\r\n                    var isDM = !isGroup && !isConversation;\r\n                    var isUnreaded = event.currentTarget.classList.contains(\"nim-dialog_unread\");\r\n                    var isMuted = event.currentTarget.classList.contains(\"nim-dialog_muted\");\r\n                    var isPinned = event.currentTarget.classList.contains(\"nim-dialog_pinned\");\r\n                    if (isUnreaded)\r\n                        menu += createLi(\"mark-as-read\", \"Отметить прочитанным\", null);\r\n                    if (isGroup)\r\n                        menu += createLi(\"open-group\", \"Перейти в группу\", \"window.open(\\\"https://vk.com/club\" + Math.abs(peerID) + \"\\\")\");\r\n                    if (isDM)\r\n                        menu += createLi(\"open-profile\", \"Открыть профиль\", \"window.open(\\\"https://vk.com/id\" + Math.abs(peerID) + \"\\\")\");\r\n                    if (isMuted)\r\n                        menu += createLi(\"notifications\", \"Включить уведомления\", null);\r\n                    else\r\n                        menu += createLi(\"notifications\", \"Выключить уведомления\", null);\r\n                    if (isPinned)\r\n                        menu += createLi(\"pin\", \"Открепить\", null);\r\n                    else\r\n                        menu += createLi(\"pin\", \"Закрепить\", null);\r\n                    if (isDNREnabled(peerID))\r\n                        menu += createLi(\"dnr\", \"Выключить нечиталку\", \"changeDNRForChat(\" + peerID + \")\");\r\n                    else\r\n                        menu += createLi(\"dnr\", \"Включить нечиталку\", \"changeDNRForChat(\" + peerID + \")\");\r\n                    if (isDNTEnabled(peerID))\r\n                        menu += createLi(\"dnt\", \"Выключить неписалку\", \"changeDNTForChat(\" + peerID + \")\");\r\n                    else\r\n                        menu += createLi(\"dnt\", \"Включить неписалку\", \"changeDNTForChat(\" + peerID + \")\");\r\n                    $(\"#custom-context-menu\").append(menu);\r\n                    $(\"#custom-context-menu\").finish().toggle(100).css({\r\n                        top: event.pageY + \"px\",\r\n                        left: event.pageX + \"px\"\r\n                    });\r\n                    event.preventDefault();\r\n                });\r\n                selectedByContext = null;\r\n                $(document).on(\"contextmenu\", \".im-mess\", function (event) {\r\n                    __1.logger.Debug(\"Show message context menu\");\r\n                    if (selectedByContext) {\r\n                        selectedByContext.classList.remove(\"im-mess_selected\");\r\n                    }\r\n                    selectedByContext = event.currentTarget;\r\n                    selectedByContext === null || selectedByContext === void 0 ? void 0 : selectedByContext.classList.add(\"im-mess_selected\");\r\n                    var menu = \"\";\r\n                    if (true) // (unreaded)\r\n                        menu += createLi(\"read\", \"Прочитать до текущего\", \"\");\r\n                    menu += createLi(\"reply\", \"Ответить\", \"\");\r\n                    menu += createLi(\"forward\", \"Переслать\", \"\");\r\n                    menu += createLi(\"delete\", \"Удалить\", \"\");\r\n                    menu += createLi(\"spam\", \"Это спам\", \"\");\r\n                    $(\"#custom-context-menu\").append(menu);\r\n                    $(\"#custom-context-menu\").finish().toggle(100).css({\r\n                        top: event.pageY + \"px\",\r\n                        left: event.pageX + \"px\"\r\n                    });\r\n                    event.preventDefault();\r\n                });\r\n                $(document).on(\"mousedown keyup\", function (event) {\r\n                    // If the clicked element is not the menu\r\n                    if ($(event.target).parents(\".custom-menu\").length === 0) {\r\n                        // Hide it\r\n                        $(\"#custom-context-menu\").hide(100);\r\n                        // and remove elements\r\n                        $(\"#custom-context-menu\").empty();\r\n                        if (selectedByContext) {\r\n                            selectedByContext.classList.remove(\"im-mess_selected\");\r\n                            selectedByContext = null;\r\n                        }\r\n                    }\r\n                });\r\n                __1.logger.Info(\"Loaded module 'im'\");\r\n                return [2 /*return*/];\r\n        }\r\n    });\r\n}); })();\r\n\n\n//# sourceURL=webpack://avotalif/./src/modules/im.ts?");
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.isDNTEnabled = exports.isDNREnabled = void 0;
+var __1 = __webpack_require__(607);
+var fia_1 = __importDefault(__webpack_require__(771));
+var utils_1 = __importDefault(__webpack_require__(593));
+// TODO: store settings in localStorage
+var DNR = true;
+var DNT = false;
+var specialStates = {};
+function isDNREnabled(peerID) {
+    if (specialStates[peerID] && typeof specialStates[peerID].DNR === "boolean")
+        return specialStates[peerID].DNR;
+    return DNR;
+}
+exports.isDNREnabled = isDNREnabled;
+function isDNTEnabled(peerID) {
+    if (specialStates[peerID] && typeof specialStates[peerID].DNT === "boolean")
+        return specialStates[peerID].DNT;
+    return DNT;
+}
+exports.isDNTEnabled = isDNTEnabled;
+unsafeWindow.changeDNRForChat = function (peerID) {
+    if (!specialStates[peerID])
+        specialStates[peerID] = {};
+    if (typeof specialStates[peerID].DNR !== "boolean")
+        specialStates[peerID].DNR = !DNR;
+    else
+        specialStates[peerID].DNR = !specialStates[peerID].DNR;
+    var contextLabel = document.getElementById("context-dnr");
+    if (specialStates[peerID].DNR === true) {
+        // нечиталка была включена
+        utils_1.default.showNotification("Нечиталка включена для данного чата");
+        // update context menu action
+        if (contextLabel)
+            contextLabel.innerText = "Выключить нечиталку";
+    }
+    else {
+        // нечиталка была выключена
+        utils_1.default.showNotification("Нечиталка выключена для данного чата");
+        curNotifier.idle_manager.is_idle = false;
+        if (contextLabel)
+            contextLabel.innerText = "Включить нечиталку";
+    }
+};
+unsafeWindow.changeDNTForChat = function (peerID) {
+    if (!specialStates[peerID])
+        specialStates[peerID] = {};
+    if (typeof specialStates[peerID].DNT !== "boolean")
+        specialStates[peerID].DNT = !DNT;
+    else
+        specialStates[peerID].DNT = !specialStates[peerID].DNT;
+    var contextLabel = document.getElementById("context-dnt");
+    if (specialStates[peerID].DNT === true) {
+        utils_1.default.showNotification("Неписалка включена для данного чата");
+        if (contextLabel)
+            contextLabel.innerText = "Выключить неписалку";
+    }
+    else {
+        utils_1.default.showNotification("Неписалка выключена для данного чата");
+        if (contextLabel)
+            contextLabel.innerText = "Включить неписалку";
+    }
+};
+unsafeWindow.changeDNRState = function (state) {
+    DNR = state;
+    utils_1.default.showNotification("\u041D\u0435\u0447\u0438\u0442\u0430\u043B\u043A\u0430 " + (state === true ? "включена" : "выключена"));
+};
+unsafeWindow.changeDNTState = function (state) {
+    DNT = state;
+    utils_1.default.showNotification("\u041D\u0435\u043F\u0438\u0441\u0430\u043B\u043A\u0430 " + (state === true ? "включена" : "выключена"));
+};
+/*
+// css for background image in dialog
+im-page--chat-body:before {
+  content: ' ';
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.7;
+  background-image: url(https://i.pinimg.com/originals/f7/ae/e8/f7aee8753832af613b63e51d5f07011a.jpg);
+  background-repeat: no-repeat;
+  background-position: 50% 0;
+  background-size: cover;
+}
+*/
+(function () { return __awaiter(void 0, void 0, void 0, function () {
+    function createLi(id, actionName, clickAction) {
+        return "<li id=\"context-" + id + "\" onclick=" + (clickAction === null ? "" : clickAction) + ">" + actionName + "</li>";
+    }
+    var selectedByContext;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: 
+            // prepare all needed global variables
+            return [4 /*yield*/, Promise.all([
+                    fia_1.default.getVariable("ajax"),
+                    fia_1.default.getVariable("Notifier"),
+                    fia_1.default.getVariable("curNotifier")
+                ])];
+            case 1:
+                // prepare all needed global variables
+                _a.sent();
+                utils_1.default.Hook(ajax, "post", function (next) {
+                    var args = [];
+                    for (var _i = 1; _i < arguments.length; _i++) {
+                        args[_i - 1] = arguments[_i];
+                    }
+                    var url = args[0];
+                    var body = args[1];
+                    if (url === "al_im.php" && body.act === "a_mark_read" && isDNREnabled(body.peer)) {
+                        __1.logger.Debug("Don't read messages");
+                        // is it safe to kill idle_manager?
+                        curNotifier.idle_manager.is_idle = true;
+                        args[2].onFail();
+                        return;
+                    }
+                    if (url === "al_im.php" && body.act === "a_activity" && isDNTEnabled(body.peer)) {
+                        __1.logger.Debug("Don't send type status");
+                        return;
+                    }
+                    return next.apply(void 0, args);
+                });
+                utils_1.default.Hook(Notifier.getLpInstance(), "push", function (next) {
+                    var args = [];
+                    for (var _i = 1; _i < arguments.length; _i++) {
+                        args[_i - 1] = arguments[_i];
+                    }
+                    args[0] = args[0].filter(function (val) {
+                        return val.type !== "event_read_inbound" || (val.type === "event_read_inbound" && !isDNREnabled(val.peer));
+                    });
+                    /*args[0] = args[0].map((val: any) => {
+                        if (val.type === "event_read_inbound") {
+                          val.unread = 1111
+                        }
+                        return val
+                      }) */
+                    if (args[0].length > 0)
+                        next.apply(void 0, args);
+                });
+                // style for context menu
+                GM_addStyle("\n    .custom-menu {\n      display: none;\n      z-index: 1000;\n      position: absolute;\n      overflow: hidden;\n      border: 1px solid #CCC;\n      white-space: nowrap;\n      font-family: sans-serif;\n      background: #FFF;\n      color: #333;\n      border-radius: 5px;\n      padding: 0;\n    }\n\n    /* Each of the items in the list */\n    .custom-menu li {\n      padding: 8px 12px;\n      cursor: pointer;\n      list-style-type: none;\n      transition: all .3s ease;\n      user-select: none;\n    }\n\n    .custom-menu li:hover {\n      background-color: #DEF;\n    }\n  ");
+                window.addEventListener("load", function () {
+                    document.body.insertAdjacentHTML("afterbegin", "<div><ul id=\"custom-context-menu\" class=\"custom-menu\"></ul></div>");
+                });
+                // context menu for dialogs
+                $(document).on("contextmenu", ".nim-dialog", function (event) {
+                    __1.logger.Debug("Show context menu for dialog");
+                    var menu = "";
+                    var peerID = parseInt(event.currentTarget.getAttribute("data-peer"), 10);
+                    var isGroup = peerID < 0;
+                    var isConversation = peerID > 2000000000;
+                    var isDM = !isGroup && !isConversation;
+                    var isUnreaded = event.currentTarget.classList.contains("nim-dialog_unread");
+                    var isMuted = event.currentTarget.classList.contains("nim-dialog_muted");
+                    var isPinned = event.currentTarget.classList.contains("nim-dialog_pinned");
+                    if (isUnreaded)
+                        menu += createLi("mark-as-read", "Отметить прочитанным", null);
+                    if (isGroup)
+                        menu += createLi("open-group", "Перейти в группу", "window.open(\"https://vk.com/club" + Math.abs(peerID) + "\")");
+                    if (isDM)
+                        menu += createLi("open-profile", "Открыть профиль", "window.open(\"https://vk.com/id" + Math.abs(peerID) + "\")");
+                    if (isMuted)
+                        menu += createLi("notifications", "Включить уведомления", null);
+                    else
+                        menu += createLi("notifications", "Выключить уведомления", null);
+                    if (isPinned)
+                        menu += createLi("pin", "Открепить", null);
+                    else
+                        menu += createLi("pin", "Закрепить", null);
+                    if (isDNREnabled(peerID))
+                        menu += createLi("dnr", "Выключить нечиталку", "changeDNRForChat(" + peerID + ")");
+                    else
+                        menu += createLi("dnr", "Включить нечиталку", "changeDNRForChat(" + peerID + ")");
+                    if (isDNTEnabled(peerID))
+                        menu += createLi("dnt", "Выключить неписалку", "changeDNTForChat(" + peerID + ")");
+                    else
+                        menu += createLi("dnt", "Включить неписалку", "changeDNTForChat(" + peerID + ")");
+                    $("#custom-context-menu").append(menu);
+                    $("#custom-context-menu").finish().toggle(100).css({
+                        top: event.pageY + "px",
+                        left: event.pageX + "px"
+                    });
+                    event.preventDefault();
+                });
+                selectedByContext = null;
+                $(document).on("contextmenu", ".im-mess", function (event) {
+                    __1.logger.Debug("Show message context menu");
+                    if (selectedByContext) {
+                        selectedByContext.classList.remove("im-mess_selected");
+                    }
+                    selectedByContext = event.currentTarget;
+                    selectedByContext === null || selectedByContext === void 0 ? void 0 : selectedByContext.classList.add("im-mess_selected");
+                    var menu = "";
+                    if (true) // (unreaded)
+                        menu += createLi("read", "Прочитать до текущего", "");
+                    menu += createLi("reply", "Ответить", "");
+                    menu += createLi("forward", "Переслать", "");
+                    menu += createLi("delete", "Удалить", "");
+                    menu += createLi("spam", "Это спам", "");
+                    $("#custom-context-menu").append(menu);
+                    $("#custom-context-menu").finish().toggle(100).css({
+                        top: event.pageY + "px",
+                        left: event.pageX + "px"
+                    });
+                    event.preventDefault();
+                });
+                $(document).on("mousedown keyup", function (event) {
+                    // If the clicked element is not the menu
+                    if ($(event.target).parents(".custom-menu").length === 0) {
+                        // Hide it
+                        $("#custom-context-menu").hide(100);
+                        // and remove elements
+                        $("#custom-context-menu").empty();
+                        if (selectedByContext) {
+                            selectedByContext.classList.remove("im-mess_selected");
+                            selectedByContext = null;
+                        }
+                    }
+                });
+                __1.logger.Info("Loaded module 'im'");
+                return [2 /*return*/];
+        }
+    });
+}); })();
+
 
 /***/ }),
 
-/***/ "./src/modules/index.ts":
-/*!******************************!*\
-  !*** ./src/modules/index.ts ***!
-  \******************************/
+/***/ 815:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
-eval("\r\nvar __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {\r\n    if (k2 === undefined) k2 = k;\r\n    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });\r\n}) : (function(o, m, k, k2) {\r\n    if (k2 === undefined) k2 = k;\r\n    o[k2] = m[k];\r\n}));\r\nvar __exportStar = (this && this.__exportStar) || function(m, exports) {\r\n    for (var p in m) if (p !== \"default\" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);\r\n};\r\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\r\n__exportStar(__webpack_require__(/*! ./api */ \"./src/modules/api.ts\"), exports);\r\n__exportStar(__webpack_require__(/*! ./im */ \"./src/modules/im.ts\"), exports);\r\n__exportStar(__webpack_require__(/*! ./notifications */ \"./src/modules/notifications.ts\"), exports);\r\n__exportStar(__webpack_require__(/*! ./misc */ \"./src/modules/misc.ts\"), exports);\r\n\n\n//# sourceURL=webpack://avotalif/./src/modules/index.ts?");
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+__exportStar(__webpack_require__(359), exports);
+__exportStar(__webpack_require__(602), exports);
+__exportStar(__webpack_require__(188), exports);
+__exportStar(__webpack_require__(314), exports);
+
 
 /***/ }),
 
-/***/ "./src/modules/misc.ts":
-/*!*****************************!*\
-  !*** ./src/modules/misc.ts ***!
-  \*****************************/
+/***/ 314:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
-eval("\r\nvar __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {\r\n    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }\r\n    return new (P || (P = Promise))(function (resolve, reject) {\r\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\r\n        function rejected(value) { try { step(generator[\"throw\"](value)); } catch (e) { reject(e); } }\r\n        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }\r\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\r\n    });\r\n};\r\nvar __generator = (this && this.__generator) || function (thisArg, body) {\r\n    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;\r\n    return g = { next: verb(0), \"throw\": verb(1), \"return\": verb(2) }, typeof Symbol === \"function\" && (g[Symbol.iterator] = function() { return this; }), g;\r\n    function verb(n) { return function (v) { return step([n, v]); }; }\r\n    function step(op) {\r\n        if (f) throw new TypeError(\"Generator is already executing.\");\r\n        while (_) try {\r\n            if (f = 1, y && (t = op[0] & 2 ? y[\"return\"] : op[0] ? y[\"throw\"] || ((t = y[\"return\"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;\r\n            if (y = 0, t) op = [op[0] & 2, t.value];\r\n            switch (op[0]) {\r\n                case 0: case 1: t = op; break;\r\n                case 4: _.label++; return { value: op[1], done: false };\r\n                case 5: _.label++; y = op[1]; op = [0]; continue;\r\n                case 7: op = _.ops.pop(); _.trys.pop(); continue;\r\n                default:\r\n                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }\r\n                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }\r\n                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }\r\n                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }\r\n                    if (t[2]) _.ops.pop();\r\n                    _.trys.pop(); continue;\r\n            }\r\n            op = body.call(thisArg, _);\r\n        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }\r\n        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };\r\n    }\r\n};\r\nvar __importDefault = (this && this.__importDefault) || function (mod) {\r\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\r\n};\r\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\r\nexports.miniChat = exports.bar = void 0;\r\nvar __1 = __webpack_require__(/*! .. */ \"./src/index.ts\");\r\nvar fia_1 = __importDefault(__webpack_require__(/*! ../fia */ \"./src/fia.ts\"));\r\nvar vkAway = true;\r\nvar hideLinksInMenu = true;\r\nvar hideMiniChat = true;\r\nfunction bar(visible) {\r\n    return __awaiter(this, void 0, void 0, function () {\r\n        var element, visibility;\r\n        return __generator(this, function (_a) {\r\n            switch (_a.label) {\r\n                case 0: return [4 /*yield*/, fia_1.default.getElementsByClass(\"left_menu_nav_wrap\")];\r\n                case 1:\r\n                    element = _a.sent();\r\n                    visibility = \"hidden\";\r\n                    if (visible) {\r\n                        visibility = \"\";\r\n                    }\r\n                    element[0].style.visibility = visibility;\r\n                    return [2 /*return*/];\r\n            }\r\n        });\r\n    });\r\n}\r\nexports.bar = bar;\r\nfunction miniChat(visible) {\r\n    return __awaiter(this, void 0, void 0, function () {\r\n        var element, visibility;\r\n        return __generator(this, function (_a) {\r\n            switch (_a.label) {\r\n                case 0: return [4 /*yield*/, fia_1.default.getElementById(\"chat_onl_wrap\")];\r\n                case 1:\r\n                    element = _a.sent();\r\n                    visibility = \"hidden\";\r\n                    if (visible) {\r\n                        visibility = \"\";\r\n                    }\r\n                    element.style.visibility = visibility;\r\n                    return [2 /*return*/];\r\n            }\r\n        });\r\n    });\r\n}\r\nexports.miniChat = miniChat;\r\n(function () { return __awaiter(void 0, void 0, void 0, function () {\r\n    return __generator(this, function (_a) {\r\n        switch (_a.label) {\r\n            case 0: return [4 /*yield*/, bar(!hideLinksInMenu)];\r\n            case 1:\r\n                _a.sent();\r\n                return [4 /*yield*/, miniChat(!hideMiniChat)];\r\n            case 2:\r\n                _a.sent();\r\n                __1.logger.Info(\"Loaded module 'misc'\");\r\n                return [2 /*return*/];\r\n        }\r\n    });\r\n}); })();\r\n\n\n//# sourceURL=webpack://avotalif/./src/modules/misc.ts?");
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.miniChat = exports.bar = void 0;
+var __1 = __webpack_require__(607);
+var fia_1 = __importDefault(__webpack_require__(771));
+var vkAway = true;
+var hideLinksInMenu = true;
+var hideMiniChat = true;
+function bar(visible) {
+    return __awaiter(this, void 0, void 0, function () {
+        var element, visibility;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, fia_1.default.getElementsByClass("left_menu_nav_wrap")];
+                case 1:
+                    element = _a.sent();
+                    visibility = "hidden";
+                    if (visible) {
+                        visibility = "";
+                    }
+                    element[0].style.visibility = visibility;
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
+exports.bar = bar;
+function miniChat(visible) {
+    return __awaiter(this, void 0, void 0, function () {
+        var element, visibility;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, fia_1.default.getElementById("chat_onl_wrap")];
+                case 1:
+                    element = _a.sent();
+                    visibility = "hidden";
+                    if (visible) {
+                        visibility = "";
+                    }
+                    element.style.visibility = visibility;
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
+exports.miniChat = miniChat;
+(function () { return __awaiter(void 0, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, bar(!hideLinksInMenu)];
+            case 1:
+                _a.sent();
+                return [4 /*yield*/, miniChat(!hideMiniChat)];
+            case 2:
+                _a.sent();
+                __1.logger.Info("Loaded module 'misc'");
+                return [2 /*return*/];
+        }
+    });
+}); })();
+
 
 /***/ }),
 
-/***/ "./src/modules/notifications.ts":
-/*!**************************************!*\
-  !*** ./src/modules/notifications.ts ***!
-  \**************************************/
+/***/ 188:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
-eval("\r\nvar __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {\r\n    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }\r\n    return new (P || (P = Promise))(function (resolve, reject) {\r\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\r\n        function rejected(value) { try { step(generator[\"throw\"](value)); } catch (e) { reject(e); } }\r\n        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }\r\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\r\n    });\r\n};\r\nvar __generator = (this && this.__generator) || function (thisArg, body) {\r\n    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;\r\n    return g = { next: verb(0), \"throw\": verb(1), \"return\": verb(2) }, typeof Symbol === \"function\" && (g[Symbol.iterator] = function() { return this; }), g;\r\n    function verb(n) { return function (v) { return step([n, v]); }; }\r\n    function step(op) {\r\n        if (f) throw new TypeError(\"Generator is already executing.\");\r\n        while (_) try {\r\n            if (f = 1, y && (t = op[0] & 2 ? y[\"return\"] : op[0] ? y[\"throw\"] || ((t = y[\"return\"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;\r\n            if (y = 0, t) op = [op[0] & 2, t.value];\r\n            switch (op[0]) {\r\n                case 0: case 1: t = op; break;\r\n                case 4: _.label++; return { value: op[1], done: false };\r\n                case 5: _.label++; y = op[1]; op = [0]; continue;\r\n                case 7: op = _.ops.pop(); _.trys.pop(); continue;\r\n                default:\r\n                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }\r\n                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }\r\n                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }\r\n                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }\r\n                    if (t[2]) _.ops.pop();\r\n                    _.trys.pop(); continue;\r\n            }\r\n            op = body.call(thisArg, _);\r\n        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }\r\n        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };\r\n    }\r\n};\r\nvar __importDefault = (this && this.__importDefault) || function (mod) {\r\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\r\n};\r\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\r\nvar __1 = __webpack_require__(/*! .. */ \"./src/index.ts\");\r\nvar utils_1 = __importDefault(__webpack_require__(/*! ../utils */ \"./src/utils.ts\"));\r\nvar typingNotif = false;\r\n(function () { return __awaiter(void 0, void 0, void 0, function () {\r\n    return __generator(this, function (_a) {\r\n        utils_1.default.onLPEvent(\"event_typing\", function (response) {\r\n            if (typingNotif) {\r\n                var isConversantion = response.peerId >= 2000000000;\r\n                var isGroup = response.peerId < 0;\r\n                if (isConversantion) {\r\n                    // get conversantion name\r\n                    //\r\n                }\r\n                Notifier.showEvent({\r\n                    title: \"Avotalif\",\r\n                    text: response.peerId + \" \\u043F\\u0435\\u0447\\u0430\\u0442\\u0430\\u0435\\u0442...\"\r\n                });\r\n            }\r\n        });\r\n        __1.logger.Info(\"Loaded module 'notifications'\");\r\n        return [2 /*return*/];\r\n    });\r\n}); })();\r\n\n\n//# sourceURL=webpack://avotalif/./src/modules/notifications.ts?");
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+var __1 = __webpack_require__(607);
+var utils_1 = __importDefault(__webpack_require__(593));
+var typingNotif = false;
+(function () { return __awaiter(void 0, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        utils_1.default.onLPEvent("event_typing", function (response) {
+            if (typingNotif) {
+                var isConversantion = response.peerId >= 2000000000;
+                var isGroup = response.peerId < 0;
+                if (isConversantion) {
+                    // get conversantion name
+                    //
+                }
+                Notifier.showEvent({
+                    title: "Avotalif",
+                    text: response.peerId + " \u043F\u0435\u0447\u0430\u0442\u0430\u0435\u0442..."
+                });
+            }
+        });
+        __1.logger.Info("Loaded module 'notifications'");
+        return [2 /*return*/];
+    });
+}); })();
+
 
 /***/ }),
 
-/***/ "./src/utils.ts":
-/*!**********************!*\
-  !*** ./src/utils.ts ***!
-  \**********************/
+/***/ 593:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
-eval("\r\nvar __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {\r\n    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }\r\n    return new (P || (P = Promise))(function (resolve, reject) {\r\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\r\n        function rejected(value) { try { step(generator[\"throw\"](value)); } catch (e) { reject(e); } }\r\n        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }\r\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\r\n    });\r\n};\r\nvar __generator = (this && this.__generator) || function (thisArg, body) {\r\n    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;\r\n    return g = { next: verb(0), \"throw\": verb(1), \"return\": verb(2) }, typeof Symbol === \"function\" && (g[Symbol.iterator] = function() { return this; }), g;\r\n    function verb(n) { return function (v) { return step([n, v]); }; }\r\n    function step(op) {\r\n        if (f) throw new TypeError(\"Generator is already executing.\");\r\n        while (_) try {\r\n            if (f = 1, y && (t = op[0] & 2 ? y[\"return\"] : op[0] ? y[\"throw\"] || ((t = y[\"return\"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;\r\n            if (y = 0, t) op = [op[0] & 2, t.value];\r\n            switch (op[0]) {\r\n                case 0: case 1: t = op; break;\r\n                case 4: _.label++; return { value: op[1], done: false };\r\n                case 5: _.label++; y = op[1]; op = [0]; continue;\r\n                case 7: op = _.ops.pop(); _.trys.pop(); continue;\r\n                default:\r\n                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }\r\n                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }\r\n                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }\r\n                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }\r\n                    if (t[2]) _.ops.pop();\r\n                    _.trys.pop(); continue;\r\n            }\r\n            op = body.call(thisArg, _);\r\n        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }\r\n        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };\r\n    }\r\n};\r\nvar __spreadArray = (this && this.__spreadArray) || function (to, from) {\r\n    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)\r\n        to[j] = from[i];\r\n    return to;\r\n};\r\nvar __importDefault = (this && this.__importDefault) || function (mod) {\r\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\r\n};\r\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\r\nvar fia_1 = __importDefault(__webpack_require__(/*! ./fia */ \"./src/fia.ts\"));\r\nvar Utils = /** @class */ (function () {\r\n    function Utils() {\r\n    }\r\n    Utils.postRequest = function (url, data) {\r\n        return __awaiter(this, void 0, void 0, function () {\r\n            return __generator(this, function (_a) {\r\n                return [2 /*return*/, new Promise(function (resolve, reject) {\r\n                        GM_xmlhttpRequest({\r\n                            method: \"POST\",\r\n                            url: url,\r\n                            data: data,\r\n                            onload: resolve,\r\n                            onerror: reject\r\n                        });\r\n                    })];\r\n            });\r\n        });\r\n    };\r\n    Utils.onLPEvent = function (eventType, callback) {\r\n        return __awaiter(this, void 0, void 0, function () {\r\n            var Notifier;\r\n            return __generator(this, function (_a) {\r\n                switch (_a.label) {\r\n                    case 0: return [4 /*yield*/, fia_1.default.getVariable(\"Notifier\")];\r\n                    case 1:\r\n                        Notifier = _a.sent();\r\n                        Notifier.getLpInstance().onData(function (answer) {\r\n                            if (answer.type === eventType || eventType === \"\")\r\n                                callback(answer);\r\n                        });\r\n                        return [2 /*return*/];\r\n                }\r\n            });\r\n        });\r\n    };\r\n    Utils.Hook = function (proto, name, replacement) {\r\n        if (!proto[name + \"_hook\"]) {\r\n            proto[name + \"_hook\"] = {\r\n                original: proto[name],\r\n                hooks: []\r\n            };\r\n            proto[name] = function () {\r\n                var _this = this;\r\n                var args = [];\r\n                for (var _i = 0; _i < arguments.length; _i++) {\r\n                    args[_i] = arguments[_i];\r\n                }\r\n                /*         if (!this.on_finish_hook_callbacks) this.on_finish_hook_callbacks = []\r\n                        this.callOnDone = function(callback: Function) {\r\n                          this.on_finish_hook_callbacks.push(callback)\r\n                        } */\r\n                var ho = __spreadArray([], proto[name + \"_hook\"].hooks); // create a copy of hooks\r\n                var next = function () {\r\n                    var _a;\r\n                    var _args = [];\r\n                    for (var _i = 0; _i < arguments.length; _i++) {\r\n                        _args[_i] = arguments[_i];\r\n                    }\r\n                    var res = ho.shift();\r\n                    if (!res) {\r\n                        return (_a = proto[name + \"_hook\"].original).call.apply(_a, __spreadArray([_this], _args));\r\n                    }\r\n                    else {\r\n                        return res.call.apply(res, __spreadArray([_this, next], _args));\r\n                    }\r\n                };\r\n                var result = next.apply(void 0, args);\r\n                /*         if (this.on_finish_hook_callbacks.length > 0) {\r\n                          for (const cb of this.on_finish_hook_callbacks) {\r\n                            cb()\r\n                          }\r\n                        }\r\n                        this.on_finish_hook_callbacks = undefined\r\n                        this.callOnDone = undefined */\r\n                return result;\r\n            };\r\n        }\r\n        proto[name + \"_hook\"].hooks.push(replacement);\r\n        // TODO: return function for hook remove\r\n    };\r\n    // not safe for functions\r\n    Utils.clone = function (obj) {\r\n        return JSON.parse(JSON.stringify(obj));\r\n    };\r\n    Utils.showNotification = function (text) {\r\n        Notifier.showEvent({\r\n            title: \"Avotalif\",\r\n            text: text\r\n        });\r\n    };\r\n    return Utils;\r\n}());\r\nexports.default = Utils;\r\n\n\n//# sourceURL=webpack://avotalif/./src/utils.ts?");
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+var __spreadArray = (this && this.__spreadArray) || function (to, from) {
+    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
+        to[j] = from[i];
+    return to;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+var fia_1 = __importDefault(__webpack_require__(771));
+var Utils = /** @class */ (function () {
+    function Utils() {
+    }
+    Utils.postRequest = function (url, data) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, new Promise(function (resolve, reject) {
+                        GM_xmlhttpRequest({
+                            method: "POST",
+                            url: url,
+                            data: data,
+                            onload: resolve,
+                            onerror: reject
+                        });
+                    })];
+            });
+        });
+    };
+    Utils.onLPEvent = function (eventType, callback) {
+        return __awaiter(this, void 0, void 0, function () {
+            var Notifier;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, fia_1.default.getVariable("Notifier")];
+                    case 1:
+                        Notifier = _a.sent();
+                        Notifier.getLpInstance().onData(function (answer) {
+                            if (answer.type === eventType || eventType === "")
+                                callback(answer);
+                        });
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Utils.Hook = function (proto, name, replacement) {
+        if (!proto[name + "_hook"]) {
+            proto[name + "_hook"] = {
+                original: proto[name],
+                hooks: []
+            };
+            proto[name] = function () {
+                var _this = this;
+                var args = [];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    args[_i] = arguments[_i];
+                }
+                /*         if (!this.on_finish_hook_callbacks) this.on_finish_hook_callbacks = []
+                        this.callOnDone = function(callback: Function) {
+                          this.on_finish_hook_callbacks.push(callback)
+                        } */
+                var ho = __spreadArray([], proto[name + "_hook"].hooks); // create a copy of hooks
+                var next = function () {
+                    var _a;
+                    var _args = [];
+                    for (var _i = 0; _i < arguments.length; _i++) {
+                        _args[_i] = arguments[_i];
+                    }
+                    var res = ho.shift();
+                    if (!res) {
+                        return (_a = proto[name + "_hook"].original).call.apply(_a, __spreadArray([_this], _args));
+                    }
+                    else {
+                        return res.call.apply(res, __spreadArray([_this, next], _args));
+                    }
+                };
+                var result = next.apply(void 0, args);
+                /*         if (this.on_finish_hook_callbacks.length > 0) {
+                          for (const cb of this.on_finish_hook_callbacks) {
+                            cb()
+                          }
+                        }
+                        this.on_finish_hook_callbacks = undefined
+                        this.callOnDone = undefined */
+                return result;
+            };
+        }
+        proto[name + "_hook"].hooks.push(replacement);
+        // TODO: return function for hook remove
+    };
+    // not safe for functions
+    Utils.clone = function (obj) {
+        return JSON.parse(JSON.stringify(obj));
+    };
+    Utils.showNotification = function (text) {
+        Notifier.showEvent({
+            title: "Avotalif",
+            text: text
+        });
+    };
+    return Utils;
+}());
+exports.default = Utils;
+
 
 /***/ })
 
@@ -146,7 +1075,7 @@ eval("\r\nvar __awaiter = (this && this.__awaiter) || function (thisArg, _argume
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	var __webpack_exports__ = __webpack_require__("./src/index.ts");
+/******/ 	var __webpack_exports__ = __webpack_require__(607);
 /******/ 	
 /******/ })()
 ;
