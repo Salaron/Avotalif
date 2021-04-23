@@ -1,4 +1,4 @@
-name: test-build
+name: build
 on: push
 
 jobs:
@@ -19,8 +19,18 @@ jobs:
     - name: Build for production
       run: npm run build
       
-    - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v2.2.3
+    - name: Deploy script to gist
+      uses: exuanbo/actions-deploy-gist@v1
       with:
-        name: avotalif.userscript.js
-        path: dist/bundle.js
+        token: ${{ secrets.TOKEN }}
+        gist_id: 26433a26b29cef790d2302703bab980d
+        gist_file_name: avotalif.user.js
+        file_path: ./dist/avotalif.user.js
+        
+    - name: Deploy meta to gist
+      uses: exuanbo/actions-deploy-gist@v1
+      with:
+        token: ${{ secrets.TOKEN }}
+        gist_id: 26433a26b29cef790d2302703bab980d
+        gist_file_name: avotalif.meta.js
+        file_path: ./dist/avotalif.meta.js 
