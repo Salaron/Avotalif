@@ -1,0 +1,30 @@
+name: test-build
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Setup Node.js environment
+      uses: actions/setup-node@v2.1.5
+      with:
+        node-version: 14.16.1
+        
+    - name: Checkout the repository
+      uses: actions/checkout@master
+      
+    - name: Install Dependencies
+      uses: borales/actions-yarn@v2.0.0
+      with:
+        cmd: install
+    
+    - name: Build for production
+      uses: borales/actions-yarn@v2.0.0
+      with: 
+        cmd: run build
+      
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.2.3
+      with:
+        name: avotalif.userscript.js
+        path: dist/bundle.js
