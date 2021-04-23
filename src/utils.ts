@@ -65,4 +65,11 @@ export default class Utils {
   public static clone<T>(obj: T): T {
     return JSON.parse(JSON.stringify(obj))
   }
+
+  public static showNotification(text: string) {
+    Notifier.showEvent({
+      title: "Avotalif",
+      text
+    })
+  }
 }

@@ -6,7 +6,6 @@ import Utils from "../utils"
 let DNR = true
 let DNT = false
 const specialStates: ISpecialSettings = {}
-
 interface ISpecialSettings {
   [peerID: number]: {
     DNR?: boolean
@@ -15,24 +14,64 @@ interface ISpecialSettings {
 }
 
 export function isDNREnabled(peerID: number) {
-  if (Object.keys(specialStates).map(parseInt).includes(peerID))
+  if (specialStates[peerID] && typeof specialStates[peerID].DNR === "boolean")
     return specialStates[peerID].DNR
   return DNR
 }
 export function isDNTEnabled(peerID: number) {
-  if (Object.keys(specialStates).map(parseInt).includes(peerID))
+  if (specialStates[peerID] && typeof specialStates[peerID].DNT === "boolean")
     return specialStates[peerID].DNT
   return DNT
 }
 
-// temporary solution
-// @ts-expect-error
+unsafeWindow.changeDNRForChat = (peerID: number) => {
+  if (!specialStates[peerID])
+    specialStates[peerID] = {}
+  if (typeof specialStates[peerID].DNR !== "boolean")
+    specialStates[peerID].DNR = !DNR
+  else
+    specialStates[peerID].DNR = !specialStates[peerID].DNR
+  const contextLabel = document.getElementById("context-dnr")
+  if (specialStates[peerID].DNR === true) {
+    // нечиталка была включена
+    Utils.showNotification("Нечиталка включена для данного чата")
+    // update context menu action
+    if (contextLabel)
+      contextLabel.innerText = "Выключить нечиталку"
+  } else {
+    // нечиталка была выключена
+    Utils.showNotification("Нечиталка выключена для данного чата")
+    curNotifier.idle_manager.is_idle = false
+    if (contextLabel)
+      contextLabel.innerText = "Включить нечиталку"
+  }
+}
+
+unsafeWindow.changeDNTForChat = (peerID: number) => {
+  if (!specialStates[peerID]) specialStates[peerID] = {}
+  if (typeof specialStates[peerID].DNT !== "boolean")
+    specialStates[peerID].DNT = !DNT
+  else
+    specialStates[peerID].DNT = !specialStates[peerID].DNT
+  const contextLabel = document.getElementById("context-dnt")
+  if (specialStates[peerID].DNT === true) {
+    Utils.showNotification("Неписалка включена для данного чата")
+    if (contextLabel)
+      contextLabel.innerText = "Выключить неписалку"
+  } else {
+    Utils.showNotification("Неписалка выключена для данного чата")
+    if (contextLabel)
+      contextLabel.innerText = "Включить неписалку"
+  }
+}
+
 unsafeWindow.changeDNRState = (state: boolean) => {
   DNR = state
+  Utils.showNotification(`Нечиталка ${state === true ? "включена" : "выключена"}`)
 }
-// @ts-expect-error
 unsafeWindow.changeDNTState = (state: boolean) => {
   DNT = state
+  Utils.showNotification(`Неписалка ${state === true ? "включена" : "выключена"}`)
 }
 
 /*
@@ -83,15 +122,16 @@ im-page--chat-body:before {
     args[0] = args[0].filter((val: any) => {
       return val.type !== "event_read_inbound" || (val.type === "event_read_inbound" && !isDNREnabled(val.peer))
     })
-    /*     args[0] = args[0].map((val: any) => {
-          if (val.type === "event_read_inbound") {
-            val.unread = 1111
-          }
-          return val
-        }) */
+    /*args[0] = args[0].map((val: any) => {
+        if (val.type === "event_read_inbound") {
+          val.unread = 1111
+        }
+        return val
+      }) */
     if (args[0].length > 0) next(...args)
   })
 
+  // style for context menu
   GM_addStyle(`
     .custom-menu {
       display: none;
@@ -120,19 +160,17 @@ im-page--chat-body:before {
       background-color: #DEF;
     }
   `)
-
-  $(() => {
-    const newHTML = document.createElement('ul')
-    newHTML.innerHTML = `<ul id="custom-context-menu" class='custom-menu'></ul>`
-    document.body.appendChild(newHTML)
+  window.addEventListener("load", () => {
+    document.body.insertAdjacentHTML("afterbegin", `<div><ul id="custom-context-menu" class="custom-menu"></ul></div>`)
   })
 
-  function createLi(actionName: string, callback: any) {
-    return `<li>${actionName}</li>`
+  function createLi(id: string, actionName: string, clickAction: string | null) {
+    return `<li id="context-${id}" onclick=${clickAction === null ? "" : clickAction}>${actionName}</li>`
   }
 
+  // context menu for dialogs
   $(document).on("contextmenu", ".nim-dialog", event => {
-    logger.Debug("Show dialog context menu")
+    logger.Debug("Show context menu for dialog")
 
     let menu = ""
     const peerID = parseInt(event.currentTarget.getAttribute("data-peer"), 10)
@@ -141,30 +179,36 @@ im-page--chat-body:before {
     const isDM = !isGroup && !isConversation
     const isUnreaded = (event.currentTarget as HTMLElement).classList.contains("nim-dialog_unread")
     const isMuted = (event.currentTarget as HTMLElement).classList.contains("nim-dialog_muted")
+    const isPinned = (event.currentTarget as HTMLElement).classList.contains("nim-dialog_pinned")
 
     if (isUnreaded)
-      menu += createLi("Отметить прочитанным", null)
+      menu += createLi("mark-as-read", "Отметить прочитанным", null)
 
     if (isGroup)
-      menu += createLi("Перейти в группу", null)
+      menu += createLi("open-group", "Перейти в группу", `window.open("https://vk.com/club${Math.abs(peerID)}")`)
 
     if (isDM)
-      menu += createLi("Открыть профиль", null)
+      menu += createLi("open-profile", "Открыть профиль", `window.open("https://vk.com/id${Math.abs(peerID)}")`)
 
     if (isMuted)
-      menu += createLi("Включить уведомления", null)
+      menu += createLi("notifications", "Включить уведомления", null)
     else
-      menu += createLi("Выключить уведомления", null)
+      menu += createLi("notifications", "Выключить уведомления", null)
+
+    if (isPinned)
+      menu += createLi("pin", "Открепить", null)
+    else
+      menu += createLi("pin", "Закрепить", null)
 
     if (isDNREnabled(peerID))
-      menu += createLi("Выключить нечиталку", null)
+      menu += createLi("dnr", "Выключить нечиталку", `changeDNRForChat(${peerID})`)
     else
-      menu += createLi("Включить нечиталку", null)
+      menu += createLi("dnr", "Включить нечиталку", `changeDNRForChat(${peerID})`)
 
     if (isDNTEnabled(peerID))
-      menu += createLi("Выключить неписалку", null)
+      menu += createLi("dnt", "Выключить неписалку", `changeDNTForChat(${peerID})`)
     else
-      menu += createLi("Включить неписалку", null)
+      menu += createLi("dnt", "Включить неписалку", `changeDNTForChat(${peerID})`)
 
 
     $("#custom-context-menu").append(menu)
@@ -175,12 +219,26 @@ im-page--chat-body:before {
     event.preventDefault()
   })
 
+  // context menu for messages [WIP]
   let selectedByContext: null | HTMLElement = null
   $(document).on("contextmenu", ".im-mess", event => {
     logger.Debug("Show message context menu")
+    if (selectedByContext) {
+      selectedByContext.classList.remove("im-mess_selected")
+    }
     selectedByContext = event.currentTarget
     selectedByContext?.classList.add("im-mess_selected")
-    $("#custom-context-menu").append("<li>Test</li>")
+
+    let menu = ""
+    if (true) // (unreaded)
+      menu += createLi("read", "Прочитать до текущего", "")
+    menu += createLi("reply", "Ответить", "")
+    menu += createLi("forward", "Переслать", "")
+    menu += createLi("delete", "Удалить", "")
+    menu += createLi("spam", "Это спам", "")
+
+    $("#custom-context-menu").append(menu)
+
     $("#custom-context-menu").finish().toggle(100).css({
       top: event.pageY + "px",
       left: event.pageX + "px"
@@ -188,11 +246,12 @@ im-page--chat-body:before {
     event.preventDefault()
   })
 
-  $(document).on("mousedown", event => {
+  $(document).on("mousedown keyup", event => {
     // If the clicked element is not the menu
     if ($(event.target).parents(".custom-menu").length === 0) {
       // Hide it
       $("#custom-context-menu").hide(100)
+      // and remove elements
       $("#custom-context-menu").empty()
       if (selectedByContext) {
         selectedByContext.classList.remove("im-mess_selected")
@@ -201,6 +260,5 @@ im-page--chat-body:before {
     }
   })
 
-  logger.Debug("Loaded module 'im'")
+  logger.Info("Loaded module 'im'")
 })()
-

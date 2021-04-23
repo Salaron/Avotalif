@@ -6,12 +6,20 @@ export default class Fia {
     // what will be if variable doesn't exist?
     return new Promise(res => {
       // @ts-expect-error
-      if (unsafeWindow[name]) {
+      if (typeof unsafeWindow[name] !== "undefined") {
         logger.Debug("Got variable: " + name)
         // @ts-expect-error
         return res(unsafeWindow[name])
       }
       setTimeout(async () => { res(await Fia.getVariable(name)) }, 10)
+    })
+  }
+
+  public static async getElementById(name: string): Promise<HTMLElement> {
+    return new Promise(res => {
+      const result = document.getElementById(name)
+      if (result != null) return res(result)
+      setTimeout(async () => { res(await Fia.getElementById(name)) }, 10)
     })
   }
 

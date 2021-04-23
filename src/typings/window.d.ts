@@ -11,9 +11,21 @@ interface ICurNotifier {
 
   }
 }
-
 declare global {
   const Notifier: INotifier
   const ajax: IAjax
   const curNotifier: ICurNotifier
+
+  interface Window {
+    vk: {
+      id: number
+    }
+    
+    changeDNTForChat: (peerID: number) => void
+    changeDNRForChat: (peerID: number) => void
+
+    changeDNRState: (state: boolean) => void
+    changeDNTState: (state: boolean) => void
+  }
 }
+
