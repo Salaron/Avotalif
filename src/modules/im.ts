@@ -135,7 +135,7 @@ im-page--chat-body:before {
 
   Utils.Hook(Notifier.getLpInstance(), "push", (next, ...args) => {
     args[0] = args[0].filter((val: any) => {
-      return val.type !== "event_read_inbound" || (val.type === "event_read_inbound" && !isDNREnabled(val.peer))
+      return val.type !== "event_read_inbound" || (val.type === "event_read_inbound" && !isDNREnabled(val.peerId))
     })
     /*args[0] = args[0].map((val: any) => {
         if (val.type === "event_read_inbound") {
