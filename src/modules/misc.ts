@@ -1,6 +1,9 @@
 import { logger } from ".."
 import Fia from "../fia"
 
+import darkCSS from "../css/dark_theme.css"
+
+
 const vkAway = true
 const hideLinksInMenu = true
 const hideMiniChat = false
@@ -23,8 +26,13 @@ export async function miniChat(visible: boolean) {
   element.style.visibility = visibility
 }
 
+export function darkTheme(enable: boolean) {
+  GM_addStyle(darkCSS)
+}
+
 (async() => {
   await bar(!hideLinksInMenu)
   await miniChat(!hideMiniChat)
+  darkTheme(true)
   logger.Info("Loaded module 'misc'")
 })()

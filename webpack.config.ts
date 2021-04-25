@@ -50,12 +50,16 @@ ${downloadURL.length > 0 ? `
       rules: [
         {
           test: /\.ts$/,
-          loader: "ts-loader",
+          loader: "ts-loader"
         },
+        {
+          test: /\.css$/,
+          loader: "raw-loader"
+        }
       ],
     },
     resolve: {
-      extensions: [".ts"]
+      extensions: [".ts", ".css"]
     },
     plugins: [
       new BannerPlugin({

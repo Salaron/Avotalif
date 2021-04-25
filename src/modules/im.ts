@@ -209,6 +209,8 @@ im-page--chat-body:before {
           const lnk = span.querySelector("a._im_mess_link")
           if (lnk) {
             lnk.textContent = `${hours}:${minutes}:${seconds}`
+          } else if (span.textContent?.includes(":")) {
+            span.textContent = span.textContent.replace(`${d.getHours()}:${minutes}`,`${hours}:${minutes}:${seconds}`)
           } else {
             span.textContent = `${hours}:${minutes}:${seconds} ${span.textContent}`
           }

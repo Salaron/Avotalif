@@ -14,8 +14,8 @@ Planned features:
 1. Enchanced DNR // done 20.04
 2. Ability to HIDE call buttons
 3. Return old buttons order in profiles
-4. Dark mode?
-5. Audio sync in tabs
+4. Dark mode
+5. Audio sync between tabs
 6. Show time with seconds
 7. DNR & DNT managers
 8. Dialog stats
