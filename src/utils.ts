@@ -6,36 +6,52 @@ type IProto = {
 }
 
 export default class Utils {
+  public static urlEncode(object: any): string {
+    const str = []
+    for (const p in object) {
+      if (object.hasOwnProperty(p)) {
+        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(object[p]))
+      }
+    }
+    return str.join("&")
+  }
+
   public static async postRequest(url: string, data: any) {
     return new Promise((resolve, reject) => {
       GM_xmlhttpRequest({
         method: "POST",
         url,
-        data,
-        onload: resolve,
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        data: Utils.urlEncode(data),
+        onload: response => {
+          const result = JSON.parse(response.response)
+          if (typeof result === "object" && result.error) {
+            if (result.error.error_code === 5) {
+              Utils.showNotification("Token invalid")
+            }
+            reject(result.error)
+          }
+          resolve(result.response)
+        },
         onerror: reject
       })
     })
   }
 
-  public static async onLPEvent(eventType: string, callback: (response: any) => void) {
+  public static async onLPEvent(eventType: string, callback: (event: any) => void) {
     const Notifier = await Fia.getVariable<INotifier>("Notifier")
     Notifier.getLpInstance().onData((answer: any) => {
       if (answer.type === eventType || eventType === "") callback(answer)
     })
   }
 
-  public static Hook(proto: IProto, name: string, replacement: (next: Function, ...args: any[]) => void) {
+  public static Hook(proto: IProto, name: string, replacement: (next: (...args: any[]) => any, ...args: any[]) => void) {
     if (!proto[`${name}_hook`]) {
       proto[`${name}_hook`] = {
         original: proto[name],
         hooks: []
       }
-      proto[name] = function(...args: any[]) {
-/*         if (!this.on_finish_hook_callbacks) this.on_finish_hook_callbacks = []
-        this.callOnDone = function(callback: Function) {
-          this.on_finish_hook_callbacks.push(callback)
-        } */
+      proto[name] = function (...args: any[]) {
         const ho = [...proto[`${name}_hook`].hooks] // create a copy of hooks
         const next = (..._args: any[]) => {
           const res = ho.shift()
@@ -45,15 +61,7 @@ export default class Utils {
             return res.call(this, next, ..._args)
           }
         }
-        const result = next(...args)
-/*         if (this.on_finish_hook_callbacks.length > 0) {
-          for (const cb of this.on_finish_hook_callbacks) {
-            cb()
-          }
-        }
-        this.on_finish_hook_callbacks = undefined
-        this.callOnDone = undefined */
-        return result
+        return next(...args)
       }
     }
 
@@ -71,5 +79,13 @@ export default class Utils {
       title: "Avotalif",
       text
     })
+  }
+
+  public static peerInfo(peerID: number) {
+    return {
+      isGroup: peerID < 0,
+      isConversation: peerID > 2000000000,
+      isDM: peerID > 0 && peerID < 2000000000
+    }
   }
 }

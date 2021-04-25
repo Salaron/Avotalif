@@ -1,9 +1,10 @@
 import { LEVEL, Logger } from "./logger"
 import Fia from "./fia"
-import { INotifier } from "./typings/notifier"
 import Utils from "./utils"
+import API from "./api"
 
-export const logger = new Logger("Avotalif", LEVEL.INFO);
+export const logger = new Logger("Avotalif", LEVEL.DEBUG)
+export const api = new API();
 
 /*
 Planned features:
@@ -27,8 +28,8 @@ Planned features:
 15. Additional information in profile
 */
 
-(async() => {
-  await Fia.getVariable<INotifier>("Notifier")
+(async () => {
+  await Fia.getVariable("Notifier")
   await Fia.getVariable("ajax")
 
   Utils.Hook(ajax, "post", (next, ...args) => {

@@ -3,7 +3,7 @@ import Fia from "../fia"
 
 const vkAway = true
 const hideLinksInMenu = true
-const hideMiniChat = true
+const hideMiniChat = false
 
 export async function bar(visible: boolean) {
   const element = await Fia.getElementsByClass("left_menu_nav_wrap")

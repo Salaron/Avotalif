@@ -1,22 +1,20 @@
-import { logger } from ".."
+import { api, logger } from ".."
 import Utils from "../utils"
 
 const typingNotif = true;
 
 (async() => {
-  Utils.onLPEvent("event_typing", (response: { peerId: any; }) => {
+  Utils.onLPEvent("event_typing", async (event: { peerId: any; }) => {
     if (typingNotif) {
-      const isConversantion = response.peerId >= 2000000000
-      const isGroup = response.peerId < 0
+      const isConversantion = event.peerId >= 2000000000
+      const isGroup = event.peerId < 0
 
       if (isConversantion) {
         // get conversantion name
-        //
       }
-      Notifier.showEvent({
-        title: "Avotalif",
-        text: `${response.peerId} печатает...`
-      })
+      if (isGroup) {
+        // get group name
+      }
     }
   })
 

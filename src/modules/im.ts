@@ -1,81 +1,97 @@
-import { logger } from ".."
+import { api, logger } from ".."
+import { ContextMenu } from "../elements/contextMenu"
 import Fia from "../fia"
 import Utils from "../utils"
 
 // TODO: store settings in localStorage
-let DNR = true
-let DNT = false
-const specialStates: ISpecialSettings = {}
+const DNR = {
+  DM: false,
+  conversations: false,
+  groups: false
+}
+const DNT = {
+  DM: false,
+  conversations: false,
+  groups: false
+}
+const DNRSpecial: ISpecialSettings = {}
+const DNTSpecial: ISpecialSettings = {}
+const showSeconds = true
+const audioToText = true
+
 interface ISpecialSettings {
-  [peerID: number]: {
-    DNR?: boolean
-    DNT?: boolean
-  }
+  [peerID: number]: boolean
 }
 
 export function isDNREnabled(peerID: number) {
-  if (specialStates[peerID] && typeof specialStates[peerID].DNR === "boolean")
-    return specialStates[peerID].DNR
-  return DNR
+  if (typeof DNRSpecial[peerID] === "boolean")
+    return DNRSpecial[peerID]
+  const info = Utils.peerInfo(peerID)
+  if (info.isConversation && DNR.conversations) return true
+  if (info.isDM && DNR.DM) return true
+  if (info.isGroup && DNR.groups) return true
+  return false
 }
 export function isDNTEnabled(peerID: number) {
-  if (specialStates[peerID] && typeof specialStates[peerID].DNT === "boolean")
-    return specialStates[peerID].DNT
-  return DNT
+  if (typeof DNTSpecial[peerID] === "boolean")
+    return DNTSpecial[peerID]
+  const info = Utils.peerInfo(peerID)
+  if (info.isConversation && DNT.conversations) return true
+  if (info.isDM && DNT.DM) return true
+  if (info.isGroup && DNT.groups) return true
+  return false
 }
 
-unsafeWindow.changeDNRForChat = (peerID: number) => {
-  if (!specialStates[peerID])
-    specialStates[peerID] = {}
-  if (typeof specialStates[peerID].DNR !== "boolean")
-    specialStates[peerID].DNR = !DNR
-  else
-    specialStates[peerID].DNR = !specialStates[peerID].DNR
-  const contextLabel = document.getElementById("context-dnr")
-  if (specialStates[peerID].DNR === true) {
-    // нечиталка была включена
+unsafeWindow.changeDNRForChat = (peerID: number, context?: HTMLElement) => {
+  if (typeof DNRSpecial[peerID] === "boolean")
+    DNRSpecial[peerID] = !DNRSpecial[peerID]
+  else {
+    const info = Utils.peerInfo(peerID)
+    DNRSpecial[peerID] = !DNR.DM
+    if (info.isConversation)
+      DNRSpecial[peerID] = !DNR.conversations
+    if (info.isGroup)
+      DNRSpecial[peerID] = !DNR.groups
+  }
+
+  if (DNRSpecial[peerID] === true) {
     Utils.showNotification("Нечиталка включена для данного чата")
     // update context menu action
-    if (contextLabel)
-      contextLabel.innerText = "Выключить нечиталку"
+    if (context)
+      context.innerText = "Выключить нечиталку"
   } else {
-    // нечиталка была выключена
     Utils.showNotification("Нечиталка выключена для данного чата")
     curNotifier.idle_manager.is_idle = false
-    if (contextLabel)
-      contextLabel.innerText = "Включить нечиталку"
+    if (context)
+      context.innerText = "Включить нечиталку"
   }
 }
 
-unsafeWindow.changeDNTForChat = (peerID: number) => {
-  if (!specialStates[peerID]) specialStates[peerID] = {}
-  if (typeof specialStates[peerID].DNT !== "boolean")
-    specialStates[peerID].DNT = !DNT
-  else
-    specialStates[peerID].DNT = !specialStates[peerID].DNT
-  const contextLabel = document.getElementById("context-dnt")
-  if (specialStates[peerID].DNT === true) {
+unsafeWindow.changeDNTForChat = (peerID: number, context?: HTMLElement) => {
+  if (typeof DNTSpecial[peerID] === "boolean")
+    DNTSpecial[peerID] = !DNTSpecial[peerID]
+  else {
+    const info = Utils.peerInfo(peerID)
+    DNTSpecial[peerID] = !DNR.DM
+    if (info.isConversation)
+      DNTSpecial[peerID] = !DNR.conversations
+    if (info.isGroup)
+      DNTSpecial[peerID] = !DNR.groups
+  }
+
+  if (DNTSpecial[peerID] === true) {
     Utils.showNotification("Неписалка включена для данного чата")
-    if (contextLabel)
-      contextLabel.innerText = "Выключить неписалку"
+    if (context)
+      context.innerText = "Выключить неписалку"
   } else {
     Utils.showNotification("Неписалка выключена для данного чата")
-    if (contextLabel)
-      contextLabel.innerText = "Включить неписалку"
+    if (context)
+      context.innerText = "Включить неписалку"
   }
-}
-
-unsafeWindow.changeDNRState = (state: boolean) => {
-  DNR = state
-  Utils.showNotification(`Нечиталка ${state === true ? "включена" : "выключена"}`)
-}
-unsafeWindow.changeDNTState = (state: boolean) => {
-  DNT = state
-  Utils.showNotification(`Неписалка ${state === true ? "включена" : "выключена"}`)
 }
 
 /*
-// css for background image in dialog
+// possible css for background image in dialog
 im-page--chat-body:before {
   content: ' ';
   display: block;
@@ -93,7 +109,7 @@ im-page--chat-body:before {
 */
 
 (async () => {
-  // prepare all needed global variables
+  // wait for all needed global variables
   await Promise.all([
     Fia.getVariable("ajax"),
     Fia.getVariable("Notifier"),
@@ -107,7 +123,6 @@ im-page--chat-body:before {
       logger.Debug(`Don't read messages`)
       // is it safe to kill idle_manager?
       curNotifier.idle_manager.is_idle = true
-      args[2].onFail()
       return
     }
     if (url === "al_im.php" && body.act === "a_activity" && isDNTEnabled(body.peer)) {
@@ -131,133 +146,97 @@ im-page--chat-body:before {
     if (args[0].length > 0) next(...args)
   })
 
-  // style for context menu
-  GM_addStyle(`
-    .custom-menu {
-      display: none;
-      z-index: 1000;
-      position: absolute;
-      overflow: hidden;
-      border: 1px solid #CCC;
-      white-space: nowrap;
-      font-family: sans-serif;
-      background: #FFF;
-      color: #333;
-      border-radius: 5px;
-      padding: 0;
-    }
 
-    /* Each of the items in the list */
-    .custom-menu li {
-      padding: 8px 12px;
-      cursor: pointer;
-      list-style-type: none;
-      transition: all .3s ease;
-      user-select: none;
-    }
-
-    .custom-menu li:hover {
-      background-color: #DEF;
-    }
-  `)
-  window.addEventListener("load", () => {
-    document.body.insertAdjacentHTML("afterbegin", `<div><ul id="custom-context-menu" class="custom-menu"></ul></div>`)
-  })
-
-  function createLi(id: string, actionName: string, clickAction: string | null) {
-    return `<li id="context-${id}" onclick=${clickAction === null ? "" : clickAction}>${actionName}</li>`
-  }
-
-  // context menu for dialogs
-  $(document).on("contextmenu", ".nim-dialog", event => {
+  const dialogContext = new ContextMenu(".nim-dialog")
+  dialogContext.onClick(event => {
     logger.Debug("Show context menu for dialog")
+    const target: HTMLElement = event.currentTarget
 
-    let menu = ""
     const peerID = parseInt(event.currentTarget.getAttribute("data-peer"), 10)
-    const isGroup = peerID < 0
-    const isConversation = peerID > 2000000000
-    const isDM = !isGroup && !isConversation
-    const isUnreaded = (event.currentTarget as HTMLElement).classList.contains("nim-dialog_unread")
-    const isMuted = (event.currentTarget as HTMLElement).classList.contains("nim-dialog_muted")
-    const isPinned = (event.currentTarget as HTMLElement).classList.contains("nim-dialog_pinned")
+    const peerInfo = Utils.peerInfo(peerID)
+    const isUnreaded = target.classList.contains("nim-dialog_unread")
+    const isMuted = target.classList.contains("nim-dialog_muted")
+    const isPinned = target.classList.contains("nim-dialog_pinned")
 
     if (isUnreaded)
-      menu += createLi("mark-as-read", "Отметить прочитанным", null)
+      dialogContext.addElement("Отметить прочитанным")
+    if (peerInfo.isGroup)
+      dialogContext.addElement("Перейти в группу", `window.open("https://vk.com/club${Math.abs(peerID)}")`)
+    if (peerInfo.isDM)
+      dialogContext.addElement("Открыть профиль", `window.open("https://vk.com/id${peerID}")`)
 
-    if (isGroup)
-      menu += createLi("open-group", "Перейти в группу", `window.open("https://vk.com/club${Math.abs(peerID)}")`)
+    dialogContext.addElement(`${isMuted ? "Включить" : "Выключить"} уведомления`)
+    dialogContext.addElement(`${isPinned ? "Открепить" : "Закрепить"}`)
 
-    if (isDM)
-      menu += createLi("open-profile", "Открыть профиль", `window.open("https://vk.com/id${Math.abs(peerID)}")`)
+    dialogContext.addElement(`${isDNREnabled(peerID) ? "Выключить" : "Включить"} нечиталку`, `changeDNRForChat(${peerID}, this)`)
+    dialogContext.addElement(`${isDNTEnabled(peerID) ? "Выключить" : "Включить"} неписалку`, `changeDNTForChat(${peerID}, this)`)
 
-    if (isMuted)
-      menu += createLi("notifications", "Включить уведомления", null)
-    else
-      menu += createLi("notifications", "Выключить уведомления", null)
-
-    if (isPinned)
-      menu += createLi("pin", "Открепить", null)
-    else
-      menu += createLi("pin", "Закрепить", null)
-
-    if (isDNREnabled(peerID))
-      menu += createLi("dnr", "Выключить нечиталку", `changeDNRForChat(${peerID})`)
-    else
-      menu += createLi("dnr", "Включить нечиталку", `changeDNRForChat(${peerID})`)
-
-    if (isDNTEnabled(peerID))
-      menu += createLi("dnt", "Выключить неписалку", `changeDNTForChat(${peerID})`)
-    else
-      menu += createLi("dnt", "Включить неписалку", `changeDNTForChat(${peerID})`)
-
-
-    $("#custom-context-menu").append(menu)
-    $("#custom-context-menu").finish().toggle(100).css({
-      top: event.pageY + "px",
-      left: event.pageX + "px"
-    })
-    event.preventDefault()
+    dialogContext.show(event)
   })
 
   // context menu for messages [WIP]
-  let selectedByContext: null | HTMLElement = null
-  $(document).on("contextmenu", ".im-mess", event => {
-    logger.Debug("Show message context menu")
-    if (selectedByContext) {
-      selectedByContext.classList.remove("im-mess_selected")
-    }
-    selectedByContext = event.currentTarget
-    selectedByContext?.classList.add("im-mess_selected")
+  const selectedByContext: null | HTMLElement = null
+  const msgContext = new ContextMenu(".im-mess")
+  // fixme: menu closes if forward message selected
+  msgContext.onClick(event => {
+    logger.Debug("Show context menu for message")
 
-    let menu = ""
-    if (true) // (unreaded)
-      menu += createLi("read", "Прочитать до текущего", "")
-    menu += createLi("reply", "Ответить", "")
-    menu += createLi("forward", "Переслать", "")
-    menu += createLi("delete", "Удалить", "")
-    menu += createLi("spam", "Это спам", "")
-
-    $("#custom-context-menu").append(menu)
-
-    $("#custom-context-menu").finish().toggle(100).css({
-      top: event.pageY + "px",
-      left: event.pageX + "px"
-    })
-    event.preventDefault()
+    // dummy elements for now
+    msgContext.addElement("Прочитать")
+    msgContext.addElement("Ответить")
+    msgContext.addElement("Переслать")
+    msgContext.addElement("Удалить")
+    msgContext.addElement("Это спам")
+    msgContext.show(event)
   })
 
-  $(document).on("mousedown keyup", event => {
-    // If the clicked element is not the menu
-    if ($(event.target).parents(".custom-menu").length === 0) {
-      // Hide it
-      $("#custom-context-menu").hide(100)
-      // and remove elements
-      $("#custom-context-menu").empty()
-      if (selectedByContext) {
-        selectedByContext.classList.remove("im-mess_selected")
-        selectedByContext = null
+  // seconds in messages, audio messages
+  window.addEventListener("load", () => {
+    new MutationObserver(mutations => {
+      const elements = Array.from(document.querySelectorAll<HTMLElement>(".im-mess-stack:not(.av_checked"))
+      for (const element of elements) {
+        element.classList.add("av_checked")
+
+        const span = element.querySelector("span.im-mess-stack--tools")
+        if (span && showSeconds) {
+          // possible pure js equalient: element.getElementsByTagName("ul")[0].getElementsByTagName("li")[0].getAttribute("data-ts")
+          const timeStamp = parseInt($(element).find("[data-ts]").attr("data-ts")!, 10)
+          const d = new Date(timeStamp * 1000)
+          const hours = d.getHours().toString().padStart(2, "0")
+          const minutes = d.getMinutes().toString().padStart(2, "0")
+          const seconds = d.getSeconds().toString().padStart(2, "0")
+
+          const lnk = span.querySelector("a._im_mess_link")
+          if (lnk) {
+            lnk.textContent = `${hours}:${minutes}:${seconds}`
+          } else {
+            span.textContent = `${hours}:${minutes}:${seconds} ${span.textContent}`
+          }
+        }
+
+/*      const audioMessages = element.getElementsByClassName("im_msg_audiomsg")
+        if (audioMessages.length > 0 && audioToText) {
+          // tslint:disable-next-line: prefer-for-of
+          for (let j = 0; j < audioMessages.length; j++) {
+            const audioMessage = audioMessages[j]
+            const msgID = $(element).find("[data-msgid]").attr("data-msgid")
+            const id = parseInt(audioMessage.id.split("_")[1], 10)
+
+            const response = await api.call("messages.getById", {
+              message_ids: parseInt(msgID),
+              extended: 1
+            })
+            for (const att of response.items[0].attachments) {
+              if (att.type === "audio_message" && att.id == id) {
+                console.log(att.audio_message.transcript)
+                break
+              }
+            }
+            break
+          }
+        } */
       }
-    }
+    }).observe(document.body, { subtree: true, childList: true, attributes: false })
   })
 
   logger.Info("Loaded module 'im'")
