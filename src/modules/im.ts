@@ -5,9 +5,9 @@ import Utils from "../utils"
 
 // TODO: store settings in localStorage
 const DNR = {
-  DM: false,
-  conversations: false,
-  groups: false
+  DM: true,
+  conversations: true,
+  groups: true
 }
 const DNT = {
   DM: false,
@@ -42,7 +42,7 @@ export function isDNTEnabled(peerID: number) {
   return false
 }
 
-unsafeWindow.changeDNRForChat = (peerID: number, context?: HTMLElement) => {
+export function changeDNRForChat(peerID: number) {
   if (typeof DNRSpecial[peerID] === "boolean")
     DNRSpecial[peerID] = !DNRSpecial[peerID]
   else {
@@ -56,18 +56,12 @@ unsafeWindow.changeDNRForChat = (peerID: number, context?: HTMLElement) => {
 
   if (DNRSpecial[peerID] === true) {
     Utils.showNotification("Нечиталка включена для данного чата")
-    // update context menu action
-    if (context)
-      context.innerText = "Выключить нечиталку"
   } else {
     Utils.showNotification("Нечиталка выключена для данного чата")
     curNotifier.idle_manager.is_idle = false
-    if (context)
-      context.innerText = "Включить нечиталку"
   }
 }
-
-unsafeWindow.changeDNTForChat = (peerID: number, context?: HTMLElement) => {
+export function changeDNTForChat(peerID: number) {
   if (typeof DNTSpecial[peerID] === "boolean")
     DNTSpecial[peerID] = !DNTSpecial[peerID]
   else {
@@ -81,13 +75,46 @@ unsafeWindow.changeDNTForChat = (peerID: number, context?: HTMLElement) => {
 
   if (DNTSpecial[peerID] === true) {
     Utils.showNotification("Неписалка включена для данного чата")
-    if (context)
-      context.innerText = "Выключить неписалку"
   } else {
     Utils.showNotification("Неписалка выключена для данного чата")
-    if (context)
-      context.innerText = "Включить неписалку"
   }
+}
+
+export async function markAsRead(peerID: number) {
+  const dialog = document.querySelector(`._im_dialog_${peerID}`)
+  let upToId
+  if (dialog) {
+    upToId = parseInt(dialog.getAttribute("data-msgid")!, 10)
+  }
+  Utils.pushLPEvent({
+    type: "event_read_inbound",
+    peerId: peerID,
+    unread: 0,
+    upToId,
+    force: true
+  })
+}
+
+export async function changePinState(peerID: number, pin: boolean) {
+  const pinnedDialogs = document.querySelectorAll(".nim-dialog_pinned")
+  if (pinnedDialogs.length === 5 && pin) {
+    Utils.showNotification("Вы не можете закрепить больше 5 диалогов")
+    return
+  }
+  const majorId = 16 * (pinnedDialogs.length + 1)
+  Utils.pushLPEvent({
+    type: "event_convo_major_id_changed",
+    peerId: peerID,
+    majorId: pin ? majorId : 0
+  })
+}
+
+export async function changeMuteState(peerID: number, mute: boolean) {
+
+/*   Notifier.lcSend("im", {
+    act: mute ? "mute" : "unmute",
+    peer: peerID
+  }) */
 }
 
 /*
@@ -101,7 +128,7 @@ im-page--chat-body:before {
   width: 100%;
   height: 100%;
   opacity: 0.7;
-  background-image: url(https://i.pinimg.com/originals/f7/ae/e8/f7aee8753832af613b63e51d5f07011a.jpg);
+  background-image: url("https://i.pinimg.com/originals/f7/ae/e8/f7aee8753832af613b63e51d5f07011a.jpg");
   background-repeat: no-repeat;
   background-position: 50% 0;
   background-size: cover;
@@ -115,6 +142,7 @@ im-page--chat-body:before {
     Fia.getVariable("Notifier"),
     Fia.getVariable("curNotifier")
   ])
+
 
   Utils.Hook(ajax, "post", (next, ...args) => {
     const url = args[0]
@@ -135,17 +163,12 @@ im-page--chat-body:before {
 
   Utils.Hook(Notifier.getLpInstance(), "push", (next, ...args) => {
     args[0] = args[0].filter((val: any) => {
-      return val.type !== "event_read_inbound" || (val.type === "event_read_inbound" && !isDNREnabled(val.peerId))
+      return val.type !== "event_read_inbound" ||
+        (val.type === "event_read_inbound" && !isDNREnabled(val.peerId)) ||
+        (val.type === "event_read_inbound" && val.force)
     })
-    /*args[0] = args[0].map((val: any) => {
-        if (val.type === "event_read_inbound") {
-          val.unread = 1111
-        }
-        return val
-      }) */
     if (args[0].length > 0) next(...args)
   })
-
 
   const dialogContext = new ContextMenu(".nim-dialog")
   dialogContext.onClick(event => {
@@ -159,17 +182,17 @@ im-page--chat-body:before {
     const isPinned = target.classList.contains("nim-dialog_pinned")
 
     if (isUnreaded)
-      dialogContext.addElement("Отметить прочитанным")
+      dialogContext.addElement("Отметить прочитанным", `Avotalif.markAsRead(${peerID})`)
     if (peerInfo.isGroup)
       dialogContext.addElement("Перейти в группу", `window.open("https://vk.com/club${Math.abs(peerID)}")`)
     if (peerInfo.isDM)
       dialogContext.addElement("Открыть профиль", `window.open("https://vk.com/id${peerID}")`)
 
-    dialogContext.addElement(`${isMuted ? "Включить" : "Выключить"} уведомления`)
-    dialogContext.addElement(`${isPinned ? "Открепить" : "Закрепить"}`)
+    dialogContext.addElement(`${isMuted ? "Включить" : "Выключить"} уведомления`, `Avotalif.changeMuteState(${peerID}, ${isMuted})`)
+    dialogContext.addElement(`${isPinned ? "Открепить" : "Закрепить"}`, `Avotalif.changePinState(${peerID}, ${!isPinned})`)
 
-    dialogContext.addElement(`${isDNREnabled(peerID) ? "Выключить" : "Включить"} нечиталку`, `changeDNRForChat(${peerID}, this)`)
-    dialogContext.addElement(`${isDNTEnabled(peerID) ? "Выключить" : "Включить"} неписалку`, `changeDNTForChat(${peerID}, this)`)
+    dialogContext.addElement(`${isDNREnabled(peerID) ? "Выключить" : "Включить"} нечиталку`, `Avotalif.changeDNRForChat(${peerID})`)
+    dialogContext.addElement(`${isDNTEnabled(peerID) ? "Выключить" : "Включить"} неписалку`, `Avotalif.changeDNTForChat(${peerID})`)
 
     dialogContext.show(event)
   })
@@ -180,11 +203,18 @@ im-page--chat-body:before {
   // fixme: menu closes if forward message selected
   msgContext.onClick(event => {
     logger.Debug("Show context menu for message")
+    const target: HTMLElement = event.currentTarget
 
+    // TODO: mark unreaded messages
     // dummy elements for now
-    msgContext.addElement("Прочитать")
+    if (true) // unreaded
+      msgContext.addElement("Прочитать")
     msgContext.addElement("Ответить")
     msgContext.addElement("Переслать")
+    if (true) // conversantion && have rights to pin && !isPinned
+      msgContext.addElement("Закрепить")
+    if (true) // outgoing
+      msgContext.addElement("Редактировать")
     msgContext.addElement("Удалить")
     msgContext.addElement("Это спам")
     msgContext.show(event)
@@ -193,6 +223,7 @@ im-page--chat-body:before {
   // seconds in messages, audio messages
   window.addEventListener("load", () => {
     new MutationObserver(mutations => {
+      if (cur.module !== "im" || (!showSeconds && !audioToText)) return
       const elements = Array.from(document.querySelectorAll<HTMLElement>(".im-mess-stack:not(.av_checked"))
       for (const element of elements) {
         element.classList.add("av_checked")
@@ -210,33 +241,18 @@ im-page--chat-body:before {
           if (lnk) {
             lnk.textContent = `${hours}:${minutes}:${seconds}`
           } else if (span.textContent?.includes(":")) {
-            span.textContent = span.textContent.replace(`${d.getHours()}:${minutes}`,`${hours}:${minutes}:${seconds}`)
+            span.textContent = span.textContent.replace(`${d.getHours()}:${minutes}`, `${hours}:${minutes}:${seconds}`)
           } else {
             span.textContent = `${hours}:${minutes}:${seconds} ${span.textContent}`
           }
         }
 
-/*      const audioMessages = element.getElementsByClassName("im_msg_audiomsg")
+        const audioMessages = Array.from(element.getElementsByClassName("im_msg_audiomsg"))
         if (audioMessages.length > 0 && audioToText) {
-          // tslint:disable-next-line: prefer-for-of
-          for (let j = 0; j < audioMessages.length; j++) {
-            const audioMessage = audioMessages[j]
-            const msgID = $(element).find("[data-msgid]").attr("data-msgid")
-            const id = parseInt(audioMessage.id.split("_")[1], 10)
-
-            const response = await api.call("messages.getById", {
-              message_ids: parseInt(msgID),
-              extended: 1
-            })
-            for (const att of response.items[0].attachments) {
-              if (att.type === "audio_message" && att.id == id) {
-                console.log(att.audio_message.transcript)
-                break
-              }
-            }
-            break
+          for (const messsage of audioMessages) {
+            const id = parseInt(messsage.id.split("_")[1], 10)
           }
-        } */
+        }
       }
     }).observe(document.body, { subtree: true, childList: true, attributes: false })
   })

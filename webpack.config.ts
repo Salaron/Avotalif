@@ -1,6 +1,6 @@
 import { Configuration, BannerPlugin } from "webpack"
-import * as path from "path"
-import * as fs from "fs"
+import { resolve as resolvePath } from "path"
+import { writeFileSync } from "fs"
 import pkg from "./package.json"
 
 export default function (env: any, options: any): Configuration {
@@ -44,7 +44,7 @@ ${downloadURL.length > 0 ? `
     entry: "./src/index.ts",
     output: {
       filename: "avotalif.user.js",
-      path: path.resolve(__dirname, "dist")
+      path: resolvePath(__dirname, "dist")
     },
     module: {
       rules: [
@@ -73,7 +73,7 @@ ${downloadURL.length > 0 ? `
   }
 
   // write meta
-  fs.writeFileSync("dist/avotalif.meta.js", scriptHeader)
+  writeFileSync("dist/avotalif.meta.js", scriptHeader)
 
   return config
 }

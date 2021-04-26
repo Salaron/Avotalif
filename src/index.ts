@@ -37,8 +37,8 @@ Planned features:
     next(...args)
   })
   Utils.onLPEvent("", (response: any) => {
-    logger.Verbose(JSON.stringify(response, null, 2), "Long Pool")
+    logger.Verbose(JSON.stringify(response, null, 2), "LP")
   })
-  await import("./modules/index")
+  unsafeWindow.Avotalif = await import("./modules/index")
 })()
 

@@ -1,4 +1,5 @@
 interface ILongPool {
+  push: (event: { [k: string]: any }[]) => void
   onData: (response: any) => void
 }
 

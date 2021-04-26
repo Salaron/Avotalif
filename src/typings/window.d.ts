@@ -4,28 +4,40 @@ interface IAjax {
 
 }
 
+interface IVK {
+  /**
+   * current user ID
+   */
+  id: number
+}
+
+interface ICur {
+  /**
+   * Current page/module
+   */
+  module: string
+}
+
 interface ICurNotifier {
   idle_manager: {
     is_idle: boolean
     started: boolean
-
   }
 }
+
 declare global {
   const Notifier: INotifier
   const ajax: IAjax
   const curNotifier: ICurNotifier
-
+  const cur: ICur
+  
   interface Window {
-    vk: {
-      id: number
-    }
-    
-    changeDNTForChat: (peerID: number) => void
-    changeDNRForChat: (peerID: number) => void
+    vk: IVK
 
-    changeDNRState: (state: boolean) => void
-    changeDNTState: (state: boolean) => void
+    Avotalif: {
+      changeDNTForChat: (peerID: number) => void
+      changeDNRForChat: (peerID: number) => void
+    }
   }
 }
 

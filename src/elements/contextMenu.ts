@@ -19,13 +19,15 @@ export class ContextMenu {
   }
 
   public addElement(label: string, clickAction?: string) {
-    this.temp += `<li onclick="${clickAction ? clickAction : ""}">${label}</li>`
+    this.temp += `<li onclick='${clickAction ? clickAction : ""}'>${label}</li>`
   }
 
   public show(event: JQuery.ContextMenuEvent) {
     // check if context menu already created?
-    $(".av-context-menu").attr("id", this.id)
-    $.when($(".av-context-menu").append(this.temp)).then(() => {
+    const contextMenuElement = $(".av-context-menu")
+    contextMenuElement.attr("id", this.id)
+    contextMenuElement.empty()
+    $.when(contextMenuElement.append(this.temp)).then(() => {
       this.temp = ""
       let top = event.pageY
       if (event.pageY > window.innerHeight / 2)
@@ -70,9 +72,15 @@ window.addEventListener("load", event => {
 $(document).on("mousedown keyup", event => {
   const contextMenuElement = $(".av-context-menu")
   const id = contextMenuElement.attr("id")
-  if ($(event.target).parents(".av-context-menu").length === 0 && id !== "") {
+  if (contextMenuElement.css("display") === "block") {
     contextMenuElement.hide(100)
-    contextMenuElement.empty()
     contextMenuElement.attr("id", "")
+  }
+  if ($(event.target).parents(".av-context-menu").length !== 0) {
+    // передача click ивента элементу контекстного меню вручную
+    // т.к. при скрытии он не передаётся
+    // колхоз ¯\_(ツ)_/¯
+    // @ts-expect-error
+    event.target.click()
   }
 })

@@ -45,6 +45,11 @@ export default class Utils {
     })
   }
 
+  public static async pushLPEvent(data: any) {
+    const Notifier = await Fia.getVariable<INotifier>("Notifier")
+    Notifier.getLpInstance().push([data])
+  }
+
   public static Hook(proto: IProto, name: string, replacement: (next: (...args: any[]) => any, ...args: any[]) => void) {
     if (!proto[`${name}_hook`]) {
       proto[`${name}_hook`] = {

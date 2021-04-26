@@ -1,38 +1,46 @@
 import { logger } from ".."
 import Fia from "../fia"
+import Utils from "../utils"
 
 import darkCSS from "../css/dark_theme.css"
 
+const darkVK = true
+const disableAway = true
+const hideLinks = true
+const hideFastChat = true
 
-const vkAway = true
-const hideLinksInMenu = true
-const hideMiniChat = false
-
-export async function bar(visible: boolean) {
+export async function leftMenuLinks(hide: boolean): Promise<void> {
   const element = await Fia.getElementsByClass("left_menu_nav_wrap")
-  let visibility = "hidden"
-  if (visible) {
-    visibility = ""
+  let visibility = ""
+  if (hide) {
+    visibility = "hidden"
   }
   element[0].style.visibility = visibility
 }
 
-export async function miniChat(visible: boolean) {
+export async function fastChat(hide: boolean): Promise<void> {
   const element = await Fia.getElementById("chat_onl_wrap")
-  let visibility = "hidden"
-  if (visible) {
-    visibility = ""
+  let visibility = ""
+  if (hide) {
+    visibility = "hidden"
   }
   element.style.visibility = visibility
 }
 
-export function darkTheme(enable: boolean) {
-  GM_addStyle(darkCSS)
+let darkCSSElement: HTMLStyleElement | null = null
+export function darkTheme(enable: boolean): void {
+  if (darkCSSElement === null && enable === true) {
+    darkCSSElement = GM_addStyle(darkCSS)
+  }
+  if (darkCSSElement !== null && enable === false) {
+    darkCSSElement.remove()
+    darkCSSElement = null
+  }
 }
 
 (async() => {
-  await bar(!hideLinksInMenu)
-  await miniChat(!hideMiniChat)
-  darkTheme(true)
+  await leftMenuLinks(hideLinks)
+  await fastChat(hideFastChat)
+  darkTheme(darkVK)
   logger.Info("Loaded module 'misc'")
 })()
