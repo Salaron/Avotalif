@@ -81,17 +81,25 @@ export function changeDNTForChat(peerID: number) {
 }
 
 export async function markAsRead(peerID: number) {
-  const dialog = document.querySelector(`._im_dialog_${peerID}`)
-  let upToId
-  if (dialog) {
-    upToId = parseInt(dialog.getAttribute("data-msgid")!, 10)
-  }
-  Utils.pushLPEvent({
-    type: "event_read_inbound",
-    peerId: peerID,
-    unread: 0,
-    upToId,
-    force: true
+  const r = await Utils.postRequest("https://vk.com/al_im.php?act=a_start", {
+    act: "a_start",
+    peer: peerID,
+    msgid: false,
+    history: true,
+    prevpeer: 0,
+    gid: 0,
+    block: true,
+    al: 1
+  })
+  const rj = await r.json()
+  await Utils.postRequest("https://vk.com/al_im.php?act=a_mark_read", {
+    act: "a_mark_read",
+    "ids[0]": rj.payload[1][0].lastmsg,
+    peer: peerID,
+    hash: rj.payload[1][0].hash,
+    im_v: 3,
+    al: 1,
+    gid: 0
   })
 }
 
@@ -163,7 +171,7 @@ const backgroundImageInDialogTest = `\
   background-size: cover;
 }
 [dir] .im-page .im-page--history-new-bar {
-  background: none;
+  background: none !important;
 }`;
 
 (async () => {
