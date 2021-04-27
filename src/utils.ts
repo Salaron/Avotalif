@@ -17,24 +17,13 @@ export default class Utils {
   }
 
   public static async postRequest(url: string, data: any) {
-    return new Promise((resolve, reject) => {
-      GM_xmlhttpRequest({
-        method: "POST",
-        url,
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        data: Utils.urlEncode(data),
-        onload: response => {
-          const result = JSON.parse(response.response)
-          if (typeof result === "object" && result.error) {
-            if (result.error.error_code === 5) {
-              Utils.showNotification("Token invalid")
-            }
-            reject(result.error)
-          }
-          resolve(result.response)
-        },
-        onerror: reject
-      })
+    const headers = new Headers()
+    headers.append("Content-Type", "application/x-www-form-urlencoded; charset=utf-8")
+    headers.append("x-requested-with", "XMLHttpRequest")
+    return await fetch(url, {
+      method: "POST",
+      headers,
+      body: new URLSearchParams(data)
     })
   }
 

@@ -101,25 +101,54 @@ export async function changePinState(peerID: number, pin: boolean) {
     Utils.showNotification("Вы не можете закрепить больше 5 диалогов")
     return
   }
-  const majorId = 16 * (pinnedDialogs.length + 1)
-  Utils.pushLPEvent({
-    type: "event_convo_major_id_changed",
-    peerId: peerID,
-    majorId: pin ? majorId : 0
+  // TODO: error handler
+  const r = await Utils.postRequest("https://vk.com/al_im.php?act=a_start", {
+    act: "a_start",
+    peer: peerID,
+    msgid: false,
+    history: true,
+    prevpeer: 0,
+    gid: 0,
+    block: true,
+    al: 1
+  })
+  const rj = await r.json()
+  let act = "a_unpin_convo"
+  if (pin) {
+    act = "a_pin_convo"
+  }
+  await Utils.postRequest("https://vk.com/al_im.php?act=" + act, {
+    act,
+    peer_id: peerID,
+    hash: rj.payload[1][0].hash
   })
 }
 
 export async function changeMuteState(peerID: number, mute: boolean) {
-
-/*   Notifier.lcSend("im", {
-    act: mute ? "mute" : "unmute",
-    peer: peerID
-  }) */
+  // TODO: error handler
+  const r = await Utils.postRequest("https://vk.com/al_im.php?act=a_start", {
+    act: "a_start",
+    peer: peerID,
+    msgid: false,
+    history: true,
+    prevpeer: 0,
+    gid: 0,
+    block: true,
+    al: 1
+  })
+  const rj = await r.json()
+  await Utils.postRequest("https://vk.com/al_im.php?act=a_mute", {
+    act: "a_mute",
+    peer: peerID,
+    hash: rj.payload[1][0].hash,
+    gid: 0,
+    value: Number(mute),
+    until: -1
+  })
 }
 
-/*
-// possible css for background image in dialog
-im-page--chat-body:before {
+const backgroundImageInDialogTest = `\
+.im-page--chat-body::before {
   content: ' ';
   display: block;
   position: absolute;
@@ -127,13 +156,15 @@ im-page--chat-body:before {
   top: 0;
   width: 100%;
   height: 100%;
-  opacity: 0.7;
-  background-image: url("https://i.pinimg.com/originals/f7/ae/e8/f7aee8753832af613b63e51d5f07011a.jpg");
+  opacity: 0.2;
+  background-image: url("https://sun9-34.userapi.com/impg/IO6q9z6s2u-OEmssV8XwhJpkNQZ3fTwr4NGEOw/9XIZcq3AuBY.jpg?size=2056x1380&quality=96&sign=8dc51c816291d954ba731df7432fe38b&type=album");
   background-repeat: no-repeat;
   background-position: 50% 0;
   background-size: cover;
 }
-*/
+[dir] .im-page .im-page--history-new-bar {
+  background: none;
+}`;
 
 (async () => {
   // wait for all needed global variables
@@ -143,7 +174,6 @@ im-page--chat-body:before {
     Fia.getVariable("curNotifier")
   ])
 
-
   Utils.Hook(ajax, "post", (next, ...args) => {
     const url = args[0]
     const body = args[1]
@@ -152,6 +182,8 @@ im-page--chat-body:before {
       // is it safe to kill idle_manager?
       curNotifier.idle_manager.is_idle = true
       return
+    } else {
+      curNotifier.idle_manager.is_idle = false
     }
     if (url === "al_im.php" && body.act === "a_activity" && isDNTEnabled(body.peer)) {
       logger.Debug(`Don't send type status`)
@@ -188,7 +220,7 @@ im-page--chat-body:before {
     if (peerInfo.isDM)
       dialogContext.addElement("Открыть профиль", `window.open("https://vk.com/id${peerID}")`)
 
-    dialogContext.addElement(`${isMuted ? "Включить" : "Выключить"} уведомления`, `Avotalif.changeMuteState(${peerID}, ${isMuted})`)
+    dialogContext.addElement(`${isMuted ? "Включить" : "Выключить"} уведомления`, `Avotalif.changeMuteState(${peerID}, ${!isMuted})`)
     dialogContext.addElement(`${isPinned ? "Открепить" : "Закрепить"}`, `Avotalif.changePinState(${peerID}, ${!isPinned})`)
 
     dialogContext.addElement(`${isDNREnabled(peerID) ? "Выключить" : "Включить"} нечиталку`, `Avotalif.changeDNRForChat(${peerID})`)
@@ -222,6 +254,9 @@ im-page--chat-body:before {
 
   // seconds in messages, audio messages
   window.addEventListener("load", () => {
+    // just a quick test
+    // will be removed later
+    GM_addStyle(backgroundImageInDialogTest)
     new MutationObserver(mutations => {
       if (cur.module !== "im" || (!showSeconds && !audioToText)) return
       const elements = Array.from(document.querySelectorAll<HTMLElement>(".im-mess-stack:not(.av_checked"))

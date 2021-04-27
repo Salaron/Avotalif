@@ -1,5 +1,9 @@
 :root {
+  /* same color codes for now */
+  /* idk what is right */
+  --steel_gray_10: #444;
   --steel_gray_80: #444;
+  --steel_gray_40: #444;
   --accent: var(--sky_300);
   --action_sheet_action_foreground: var(--white);
   --action_sheet_separator: var(--white_alpha16);
@@ -229,4 +233,8 @@
   --skeleton_shimmer_to: var(--transparent_black);
   --skeleton_foreground_from: var(--gray_850);
   --skeleton_foreground_to: var(--gray_800)
+}
+
+.im-page--redesigned-menu .ui_actions_menu_item {
+  color: var(--text_primary);
 }

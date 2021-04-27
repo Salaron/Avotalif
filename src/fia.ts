@@ -11,7 +11,7 @@ export default class Fia {
         // @ts-expect-error
         return res(unsafeWindow[name])
       }
-      setTimeout(async () => { res(await Fia.getVariable(name)) }, 10)
+      setTimeout(async () => { res(await Fia.getVariable(name)) }, 50)
     })
   }
 
@@ -19,7 +19,7 @@ export default class Fia {
     return new Promise(res => {
       const result = document.getElementById(name)
       if (result != null) return res(result)
-      setTimeout(async () => { res(await Fia.getElementById(name)) }, 10)
+      setTimeout(async () => { res(await Fia.getElementById(name)) }, 50)
     })
   }
 
@@ -27,7 +27,7 @@ export default class Fia {
     return new Promise(res => {
       const result = document.getElementsByClassName(className)
       if (result.length > 0) return res(result as HTMLCollectionOf<HTMLElement>)
-      setTimeout(async () => { res(await Fia.getElementsByClass(className)) }, 10)
+      setTimeout(async () => { res(await Fia.getElementsByClass(className)) }, 50)
     })
   }
 
@@ -35,7 +35,7 @@ export default class Fia {
     return new Promise(res => {
       const result = document.querySelector(selectors)
       if (result) return res(result)
-      setTimeout(async () => { res(await Fia.querySelector(selectors)) }, 10)
+      setTimeout(async () => { res(await Fia.querySelector(selectors)) }, 50)
     })
   }
 }
