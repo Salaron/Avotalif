@@ -235,6 +235,6 @@
   --skeleton_foreground_to: var(--gray_800)
 }
 
-.im-page--redesigned-menu .ui_actions_menu_item {
-  color: var(--text_primary);
+.ui_actions_menu_item {
+  color: var(--text_primary)!important;
 }
