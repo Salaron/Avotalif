@@ -1,8 +1,21 @@
+import { logger } from "."
 import Fia from "./fia"
 import { INotifier } from "./typings/notifier"
 
 type IProto = {
   [k in number | string]: any
+}
+
+interface IPostRequestResult {
+  headers: Headers
+  status: number
+  text: string
+  json: any
+}
+
+interface IAlImRequestParams {
+  act: string
+  [k: string]: any
 }
 
 export default class Utils {
@@ -16,15 +29,49 @@ export default class Utils {
     return str.join("&")
   }
 
-  public static async postRequest(url: string, data: any) {
-    const headers = new Headers()
-    headers.append("Content-Type", "application/x-www-form-urlencoded; charset=utf-8")
-    headers.append("x-requested-with", "XMLHttpRequest")
-    return await fetch(url, {
-      method: "POST",
-      headers,
-      body: new URLSearchParams(data)
+  public static async postRequest(url: string, data: any): Promise<IPostRequestResult> {
+    try {
+      const headers = new Headers()
+      headers.append("Content-Type", "application/x-www-form-urlencoded; charset=windows-1251")
+      headers.append("x-requested-with", "XMLHttpRequest")
+      const response = await fetch(url, {
+        method: "POST",
+        headers,
+        body: new URLSearchParams(data)
+      })
+      const text = new TextDecoder("windows-1251").decode(await response.arrayBuffer())
+      let json
+      try {
+        json = JSON.parse(text)
+      } catch {
+        // ignore json
+      }
+      return {
+        headers: response.headers,
+        status: response.status,
+        text,
+        json
+      }
+    } catch (err) {
+      // log error
+      logger.Error(err)
+      throw err
+    }
+  }
+
+  public static async alimRequest(params: IAlImRequestParams) {
+    const response = await Utils.postRequest("https://vk.com/al_im.php?act=" + params.act, {
+      ...params,
+      gid: 0,
+      block: true,
+      al: 1
     })
+    if (response.json.payload[0] === 0)
+      return response.json.payload[1][0]
+    else {
+      Utils.showNotification(response.json.payload[1][0])
+      throw Error(response.json.payload[1][0])
+    }
   }
 
   public static async onLPEvent(eventType: string, callback: (event: any) => void) {

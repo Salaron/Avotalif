@@ -16,6 +16,7 @@ interface ICur {
    * Current page/module
    */
   module: string
+  peer?: number
 }
 
 interface ICurNotifier {

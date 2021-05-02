@@ -58,7 +58,6 @@ export function changeDNRForChat(peerID: number) {
     Utils.showNotification("Нечиталка включена для данного чата")
   } else {
     Utils.showNotification("Нечиталка выключена для данного чата")
-    curNotifier.idle_manager.is_idle = false
   }
 }
 export function changeDNTForChat(peerID: number) {
@@ -80,76 +79,50 @@ export function changeDNTForChat(peerID: number) {
   }
 }
 
-export async function markAsRead(peerID: number) {
-  const r = await Utils.postRequest("https://vk.com/al_im.php?act=a_start", {
+export async function markAsRead(peerID: number, msgID?: number) {
+  const dialog = await Utils.alimRequest({
     act: "a_start",
     peer: peerID,
     msgid: false,
     history: true,
-    prevpeer: 0,
-    gid: 0,
-    block: true,
-    al: 1
   })
-  const rj = await r.json()
-  await Utils.postRequest("https://vk.com/al_im.php?act=a_mark_read", {
+  await Utils.alimRequest({
     act: "a_mark_read",
-    "ids[0]": rj.payload[1][0].lastmsg,
+    "ids[0]": msgID ? msgID : dialog.lastmsg,
     peer: peerID,
-    hash: rj.payload[1][0].hash,
-    im_v: 3,
-    al: 1,
-    gid: 0
+    hash: dialog.hash
   })
 }
 
 export async function changePinState(peerID: number, pin: boolean) {
-  const pinnedDialogs = document.querySelectorAll(".nim-dialog_pinned")
-  if (pinnedDialogs.length === 5 && pin) {
-    Utils.showNotification("Вы не можете закрепить больше 5 диалогов")
-    return
-  }
-  // TODO: error handler
-  const r = await Utils.postRequest("https://vk.com/al_im.php?act=a_start", {
+  const dialog = await Utils.alimRequest({
     act: "a_start",
     peer: peerID,
     msgid: false,
     history: true,
-    prevpeer: 0,
-    gid: 0,
-    block: true,
-    al: 1
   })
-  const rj = await r.json()
   let act = "a_unpin_convo"
   if (pin) {
     act = "a_pin_convo"
   }
-  await Utils.postRequest("https://vk.com/al_im.php?act=" + act, {
+  await Utils.alimRequest({
     act,
     peer_id: peerID,
-    hash: rj.payload[1][0].hash
+    hash: dialog.hash,
   })
 }
 
 export async function changeMuteState(peerID: number, mute: boolean) {
-  // TODO: error handler
-  const r = await Utils.postRequest("https://vk.com/al_im.php?act=a_start", {
+  const dialog = await Utils.alimRequest({
     act: "a_start",
     peer: peerID,
     msgid: false,
     history: true,
-    prevpeer: 0,
-    gid: 0,
-    block: true,
-    al: 1
   })
-  const rj = await r.json()
-  await Utils.postRequest("https://vk.com/al_im.php?act=a_mute", {
+  await Utils.alimRequest({
     act: "a_mute",
     peer: peerID,
-    hash: rj.payload[1][0].hash,
-    gid: 0,
+    hash: dialog.hash,
     value: Number(mute),
     until: -1
   })
@@ -187,11 +160,7 @@ const backgroundImageInDialogTest = `\
     const body = args[1]
     if (url === "al_im.php" && body.act === "a_mark_read" && isDNREnabled(body.peer)) {
       logger.Debug(`Don't read messages`)
-      // is it safe to kill idle_manager?
-      curNotifier.idle_manager.is_idle = true
       return
-    } else {
-      curNotifier.idle_manager.is_idle = false
     }
     if (url === "al_im.php" && body.act === "a_activity" && isDNTEnabled(body.peer)) {
       logger.Debug(`Don't send type status`)
@@ -214,6 +183,7 @@ const backgroundImageInDialogTest = `\
   dialogContext.onClick(event => {
     logger.Debug("Show context menu for dialog")
     const target: HTMLElement = event.currentTarget
+    event.preventDefault()
 
     const peerID = parseInt(event.currentTarget.getAttribute("data-peer"), 10)
     const peerInfo = Utils.peerInfo(peerID)
@@ -240,15 +210,21 @@ const backgroundImageInDialogTest = `\
   // context menu for messages [WIP]
   const selectedByContext: null | HTMLElement = null
   const msgContext = new ContextMenu(".im-mess")
-  // fixme: menu closes if forward message selected
   msgContext.onClick(event => {
     logger.Debug("Show context menu for message")
     const target: HTMLElement = event.currentTarget
+    if (
+      target.classList.contains("im-mess--inline-fwd") ||
+      target.classList.contains("im-mess_fwd") ||
+      target.tagName === "a"
+    ) return
+    event.preventDefault()
 
+    const msgID = target.dataset.msgid
     // TODO: mark unreaded messages
     // dummy elements for now
     if (true) // unreaded
-      msgContext.addElement("Прочитать")
+      msgContext.addElement("Прочитать", `Avotalif.markAsRead(${cur.peer}, ${msgID})`)
     msgContext.addElement("Ответить")
     msgContext.addElement("Переслать")
     if (true) // conversantion && have rights to pin && !isPinned

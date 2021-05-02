@@ -12,10 +12,7 @@ export class ContextMenu {
   }
 
   public onClick(callback: (event: JQuery.ContextMenuEvent<Document, undefined, any, any>) => void) {
-    $(document).on("contextmenu", this.targetSelector, event => {
-      event.preventDefault()
-      callback(event)
-    })
+    $(document).on("contextmenu", this.targetSelector, callback)
   }
 
   public addElement(label: string, clickAction?: string) {
