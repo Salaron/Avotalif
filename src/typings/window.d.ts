@@ -1,3 +1,4 @@
+import Avotalif from "../Avotalif"
 import { INotifier } from "./notifier"
 
 interface IAjax {
@@ -12,11 +13,18 @@ interface IVK {
 }
 
 interface ICur {
-  /**
-   * Current page/module
-   */
-  module: string
+  module?: string
+
+  // profile
+  owner?: {
+    id: number
+    name: string
+    photo: string
+  }
+
+  // im
   peer?: number
+  gid?: number
 }
 
 interface ICurNotifier {
@@ -27,18 +35,42 @@ interface ICurNotifier {
 }
 
 declare global {
-  const Notifier: INotifier
-  const ajax: IAjax
-  const curNotifier: ICurNotifier
-  const cur: ICur
-  
+  const Avotalif: Avotalif
   interface Window {
+    Notifier: INotifier
+    ajax: IAjax
+    cur: ICur
+    curNotifier: ICurNotifier
     vk: IVK
 
-    Avotalif: {
-      changeDNTForChat: (peerID: number) => void
-      changeDNRForChat: (peerID: number) => void
-    }
+    /**
+     * Merge two objects
+     * @param a first object
+     * @param b second object
+     */
+    extend<T, U>(a: T, b: U): T & U
+
+    /**
+     * Get localized string
+     * @param key string key
+     */
+    getLang(key: string): string
+
+    /**
+     * todo
+     * @param args todo
+     */
+    getShortDateOrTime(...args: any[]): string
+
+    /**
+     * Prepare html template
+     */
+    getTemplate(key: string, args: unknown): string
+
+    /**
+     * Avotalif instance
+     */
+    Avotalif: Avotalif
   }
 }
 

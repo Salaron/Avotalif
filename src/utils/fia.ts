@@ -1,13 +1,9 @@
-
-import { logger } from "."
-
 export default class Fia {
   public static async getVariable<T>(name: string): Promise<T> {
-    // what will be if variable doesn't exist?
     return new Promise(res => {
       // @ts-expect-error
       if (typeof unsafeWindow[name] !== "undefined") {
-        logger.Debug("Got variable: " + name)
+        Avotalif.Logger.Debug("Got variable: " + name)
         // @ts-expect-error
         return res(unsafeWindow[name])
       }
@@ -31,10 +27,10 @@ export default class Fia {
     })
   }
 
-  public static async querySelector(selectors: string) {
+  public static async querySelector(selectors: string): Promise<HTMLElement> {
     return new Promise(res => {
       const result = document.querySelector(selectors)
-      if (result) return res(result)
+      if (result) return res(result as HTMLElement)
       setTimeout(async () => { res(await Fia.querySelector(selectors)) }, 50)
     })
   }
