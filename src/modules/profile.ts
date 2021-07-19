@@ -64,7 +64,11 @@ export default class Profile extends Base {
   public async getOnlineString(userID: number) {
     const info = await this.getExtendedOnlineInfo(userID)
     if (info && this.extendedOnlineInfo) {
-      return `${Utils.formatDate(info.time, "D mmm YYYY HH:mm:ss")} через ${info.via}`
+      let onlineStr = ""
+      if (info.is_online) {
+        onlineStr += `(${unsafeWindow.getLang("global_online")})`
+      }
+      return `${Utils.formatDate(info.time, "D mmm YYYY HH:mm:ss")} через ${info.via} ${onlineStr}`
     } else if (info) {
       // TODO
     }
@@ -102,6 +106,7 @@ export default class Profile extends Base {
     }
 
     return {
+      is_online: resp.online_info.is_online,
       time: resp.last_seen.time,
       via: platformName
     }
