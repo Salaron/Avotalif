@@ -1,18 +1,19 @@
 import ContextMenu from "../components/contextMenu"
 import { Base } from "./base"
 
-let instance: LeftMenu | null = null
 export default class LeftMenu extends Base {
-  public name = "LeftMenu"
-
+  protected static instance: LeftMenu
   public static getInstance() {
-    if (instance === null) instance = new LeftMenu()
-    return instance
+    if (!LeftMenu.instance) LeftMenu.instance = new LeftMenu()
+    return LeftMenu.instance
   }
 
+  public readonly name = "LeftMenu"
+  private iconInterval: NodeJS.Timer | null = null
+
   public async init() {
-    setInterval(() => { this.updateOnlineIcon().catch(err => Avotalif.Logger.Error(err)) }, 10000)
     Avotalif.onInitDone(() => {
+      this.iconInterval = setInterval(() => { this.updateOnlineIcon().catch(err => Avotalif.Logger.Error(err)) }, 10000)
       this.updateOnlineIcon()
     })
     const context = new ContextMenu("leftMenu", ".left_row")

@@ -46,16 +46,17 @@ Planned features:
 
 (async () => {
   const av = new Avotalif()
+  unsafeWindow.Avotalif = av
 
   // init settings
   Settings.getInstance()
   // init shortcut manager
   ShortcutManager.getInstance()
-  unsafeWindow.Avotalif = av
   // const tokens = GM_getValue<ITokens>("avTokens", {})
   /* if (!tokens[unsafeWindow.vk.id] || !av.API.checkToken(tokens[unsafeWindow.vk.id])) {
       tokens[unsafeWindow.vk.id] = await api.getNewToken(6146827)
   } */
+  // init avotalif
   await av.init()
 
   for (const module of Modules) {

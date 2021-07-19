@@ -17,15 +17,18 @@ export interface IResponse {
 
 export interface Base {
   /**
-   * Получение объекта класса. Один модуль должен иметь только один инстанс
+   * Получение объекта модуля. Один модуль должен иметь только один инстанс (singleton)
    */
   getInstance(): Base
+
   /**
    * Вызывается перед выполнением POST запроса.
+   * Запрос не будет выполнен, если вернуть false
    * @param req
-   * @returns если вернуть false, то запрос не будет выполнен
+   * @returns boolean
    */
   onRequest?(req: IRequest): boolean
+
   /**
    * TODO
    * @param res
@@ -34,12 +37,6 @@ export interface Base {
 
   onLpEvent?(events: any[]): void
   onMutation?(mutations: MutationRecord[]): void
-
-  /**
-   * TODO
-   */
-  onShortcut?(): void
-
   onModule?(name: string): void
 }
 
@@ -53,4 +50,6 @@ export abstract class Base {
    * Метод, в котором производится инициализация модуля
    */
   public abstract init(): Promise<void>
+
+  protected static instance: Base
 }

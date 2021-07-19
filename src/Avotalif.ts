@@ -16,10 +16,6 @@ export default class Avotalif {
   public initDone = false
   private onInitListeners: (() => void)[] = []
 
-  public static getInstance() {
-    return null
-  }
-
   public async init() {
     if (this.initDone) return
 

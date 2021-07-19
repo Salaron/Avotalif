@@ -1,14 +1,14 @@
 import Utils from "../utils/utils"
 import { Base } from "./base"
 
-let instance: Profile | null = null
 export default class Profile extends Base {
-  public name = "Profile"
-
+  protected static instance: Profile
   public static getInstance(): Profile {
-    if (!instance) instance = new Profile()
-    return instance
+    if (!Profile.instance) Profile.instance = new Profile()
+    return Profile.instance
   }
+
+  public readonly name = "Profile"
 
   public async init() {
     // nothing
@@ -17,47 +17,46 @@ export default class Profile extends Base {
   private extendedOnlineInfo = true
   private showOnlineFromThird = true
   public onModule(module: string) {
-    if (module === "profile") {
-      const online = document.querySelector<HTMLElement>(".profile_online_lv")
-      if (online) {
-        this.getOnlineString(unsafeWindow.cur.owner!.id).then(str => {
-          if (!str) return // TODO
-          online.textContent = str
-        })
-      }
+    if (module !== "profile") return
+    const online = document.querySelector<HTMLElement>(".profile_online_lv")
+    if (online) {
+      this.getOnlineString(unsafeWindow.cur.owner!.id).then(str => {
+        if (!str) return // TODO
+        online.textContent = str
+      })
+    }
 
-      const profileInfo = document.querySelector<HTMLElement>(".profile_info_short")
-      if (profileInfo) {
-        Utils.postRequest("https://vk.com/foaf.php", { id: unsafeWindow.cur.owner?.id }).then(async response => {
-          const resp = response.text
+    const profileInfo = document.querySelector<HTMLElement>(".profile_info_short")
+    if (profileInfo) {
+      Utils.postRequest("https://vk.com/foaf.php", { id: unsafeWindow.cur.owner?.id }).then(async response => {
+        const resp = response.text
 
-          const rows = Array.from(document.querySelectorAll<HTMLElement>(".profile_info_row"))
-          for (const row of rows) {
-            const label = row.querySelector<HTMLElement>(".labeled")
-            if (label?.innerHTML.includes("bday")) {
-              const userInfo = await Avotalif.API.call("users.get", { user_ids: unsafeWindow.cur.owner?.id, fields: "bdate" })
-              const date = (userInfo.json.response[0].bdate as string).split(".").map(el => parseInt(el, 10))
-              if (Number.isNaN(date[0])) break
-              const t = new Date(0, date[1] - 1, date[0])
-              label?.insertAdjacentText("beforeend", ` (${this.getZodiacSign(t)})`)
-            }
+        const rows = Array.from(document.querySelectorAll<HTMLElement>(".profile_info_row"))
+        for (const row of rows) {
+          const label = row.querySelector<HTMLElement>(".labeled")
+          if (label?.innerHTML.includes("bday")) {
+            const userInfo = await Avotalif.API.call("users.get", { user_ids: unsafeWindow.cur.owner?.id, fields: "bdate" })
+            const date = (userInfo.json.response[0].bdate as string).split(".").map(el => parseInt(el, 10))
+            if (Number.isNaN(date[0])) break
+            const t = new Date(0, date[1] - 1, date[0])
+            label?.insertAdjacentText("beforeend", ` (${this.getZodiacSign(t)})`)
           }
+        }
 
-          const registerDate = new Date((resp.match(/<ya:created dc:date="(.*?)"/i) || [0])[1])
-          // TODO: templates
-          profileInfo.insertAdjacentHTML("afterbegin", `\
-          <div class="clear_fix profile_info_row ">
-            <div class="label fl_l">Дата регистрации:</div>
-            <div class="labeled">${Utils.formatDate(registerDate, "D mmmm YYYY HH:mm:ss")}</div>
-          </div>`)
+        const registerDate = new Date((resp.match(/<ya:created dc:date="(.*?)"/i) || [0])[1])
+        // TODO: templates
+        profileInfo.insertAdjacentHTML("afterbegin", `\
+        <div class="clear_fix profile_info_row ">
+          <div class="label fl_l">Дата регистрации:</div>
+          <div class="labeled">${Utils.formatDate(registerDate, "D mmmm YYYY HH:mm:ss")}</div>
+        </div>`)
 
-          profileInfo.insertAdjacentHTML("afterbegin", `\
-          <div class="clear_fix profile_info_row ">
-            <div class="label fl_l">ID:</div>
-            <div class="labeled">${unsafeWindow.cur.owner?.id}</div>
-          </div>`)
-        })
-      }
+        profileInfo.insertAdjacentHTML("afterbegin", `\
+        <div class="clear_fix profile_info_row ">
+          <div class="label fl_l">ID:</div>
+          <div class="labeled">${unsafeWindow.cur.owner?.id}</div>
+        </div>`)
+      })
     }
   }
 
