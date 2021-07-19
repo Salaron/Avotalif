@@ -6,8 +6,6 @@ import ShortcutManager, { Keys } from "../utils/shortcutManager"
 import Fia from "../utils/fia"
 
 interface ISttCache {
-  [messageId: number]: IMessage
-}
 
 let instance: IM | null = null
 export default class IM extends Base {

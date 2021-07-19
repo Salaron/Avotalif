@@ -2,11 +2,6 @@
 # yarn lockfile v1
 
 
-"@apidog/vk-typings@^0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@apidog/vk-typings/-/vk-typings-0.2.1.tgz#fef3f72529be13f044f47229a504435547f17974"
-  integrity sha512-hQ7AF8Ey6l5TiRH3Bwkjfi22wtKQAjApBD/zuZbDWsNP+UaD7vavL16wXaloq5SoWyZM+LlFKYPNZgJ7wmFBYw==
-
 "@babel/code-frame@^7.0.0":
   version "7.14.5"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.14.5.tgz#23b08d740e83f49c5e59945fbf1b43e80bbf4edb"
