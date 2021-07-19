@@ -1,26 +1,22 @@
 import ContextMenu from "../components/contextMenu"
 import Utils from "../utils/utils"
 import { Base, IRequest } from "./base"
-import { IMessage } from "@apidog/vk-typings"
 import ShortcutManager, { Keys } from "../utils/shortcutManager"
 import Fia from "../utils/fia"
 
 interface ISttCache {
 
-let instance: IM | null = null
+}
+
 export default class IM extends Base {
-  public name = "IM"
-  private sttCache: ISttCache = {}
-
-  constructor() {
-    super()
-    if (instance) throw new Error("?")
-  }
-
+  protected static instance: IM
   public static getInstance() {
-    if (!instance) instance = new IM()
-    return instance
+    if (!IM.instance) IM.instance = new IM()
+    return IM.instance
   }
+
+  public readonly name = "IM"
+  private sttCache: ISttCache = {}
 
   public async init(): Promise<void> {
     const originalGetShortDateOrTime = unsafeWindow.getShortDateOrTime
