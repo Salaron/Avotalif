@@ -3,6 +3,7 @@ import Modules from "./modules/index"
 import BaseCSS from "./css/base.css"
 import Settings from "./utils/settings"
 import ShortcutManager from "./utils/shortcutManager"
+import Fia from "./utils/fia"
 
 
 /*
@@ -45,6 +46,7 @@ Planned features:
 // stats.vk-portal.net
 
 (async () => {
+  await Fia.getVariable("vk")
   const av = new Avotalif()
   unsafeWindow.Avotalif = av
 

@@ -1,9 +1,9 @@
+// TODO: replace this static class by functions
 export default class Fia {
   public static async getVariable<T>(name: string): Promise<T> {
     return new Promise(res => {
       // @ts-expect-error
       if (typeof unsafeWindow[name] !== "undefined") {
-        Avotalif.Logger.Debug("Got variable: " + name)
         // @ts-expect-error
         return res(unsafeWindow[name])
       }
